@@ -1,5 +1,7 @@
 <?php
-      session_start();
+    session_start();
+    if(isset($_SESSION['userData'])){
+        if($_SESSION['userData']['user']!="gymMatriculado"){
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,6 +14,12 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
       <script src="js/ScriptsGym.js"></script>
+      <style type="text/css">
+        
+        td,th{
+          border: 1px solid black;
+        }
+      </style>
 </head>
 <body>
 
@@ -87,29 +95,44 @@
                   <p> Clases: </p>
                   <form action="mensajes.php" method="post">
                     <?php
-                        echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-primary">asdf</button>';
+                        echo '<button type="submit" name="idMonitor" value="'.$monitor['idMonitor'].'" class="btn btn-primary">asdf</button>';
                     ?>
                   </form>
             </div>
         <?php
             }
             else{
-                $sql = "SELECT idMonitor,usuarios.dni,usuarios.nombre,usuarios.apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
+                $sql = "SELECT dni,nombre,apellido,sexo,fechaNacimiento,telefono,mail FROM usuarios INNER JOIN matriculados ON usuarios.dni=matriculados.dniMatriculado
+                    WHERE rol='matriculado'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
-                    $monitores[] = $fila;
+                    $matriculados[] = $fila;
                 } 
-                foreach ($monitores as $key => $monitor) {
-                    echo '<div class="card" style="width: 18rem">';
-                    echo '<div class="card-body">';
-                    echo '<h5 class="card-title">'.$monitor['nombre'].' '.$monitor['apellido'].'</h5>';
-                    echo '<p class="card-text">'.$monitor['titulacion'].'</p>';
-                    echo '<form action="" method="get">';
-                    echo '<button type="submit" name="idMonitor" value="'.$monitor['idMonitor'].'" class="btn btn-primary">Mas informacion</button>';
+
+                echo '<table><tr><th>DNI</th><th>Nombre</th><th>Apellido</th><th>Sexo</th><th>Fecha de Nacimiento</th><th>Telefono</th><th>Correo electronico</th><th>Contactar</th></tr>';
+                foreach ($matriculados as $key => $matriculado) {
+                    echo '<tr>';
+                    foreach ($matriculado as $key => $valor) {
+                        echo '<td>'.$valor.'</td>';
+                    }
+                    echo '<td>';
+                    echo '<form action="mensajes.php" method="post">';
+                    echo '<button type="submit" name="dni" value="'.$matriculado['dni'].'" class="btn btn-primary">Mensaje</button>';
                     echo '</form>';
-                    echo '</div></div>';
+                    echo '</tr>';
                 }
+                echo '</table>';
             }    
         ?>     
 </body>
 </html>
+<?php
+        }
+        else{
+            header("location: index.php");
+        }
+    }
+    else{
+        header("location: index.php");
+    }
+?>

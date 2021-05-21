@@ -35,6 +35,7 @@ function mostrarProdcutos(monitores){
 }*/
 var user;
 var userChat;
+var nuevoChat = false;
 
 function getUsuarioActual(){
     var xhttp = new XMLHttpRequest();
@@ -64,21 +65,56 @@ function cargarMensajeria(){
 
 function mostrarUltimosChats(listaDeChats){
     var chat = "";
+    if(nuevoChat){
+        var c=0;
+        for(var i=0;i<listaDeChats.length;i++){
+            if(listaDeChats[i]['dni']==userChat){
+                c++;
+            }
+        }
+        if(c==0){
+            chat += '<div class="chat_list" onclick="cargarChat(`'+userChat+'`)">';
+            chat +=          '<div class="chat_people">';
+            chat +=            '<div class="chat_ib">';
+            chat +=              '<h5>'+userChat+' (Nuevo Chat)<span class="chat_date"></span></h5>';
+            chat +=              '<p></p>';
+            chat +=            '</div>';
+            chat +=          '</div>';
+            chat +=        '</div>';
+            nuevoChat = false;
+        }
+        cargarChat(userChat);
+    }
     for(var i=0;i<listaDeChats.length;i++){
         var d = new Date(listaDeChats[i]['fechaMsg']);
-        chat += '<div class="chat_list" onclick="cargarChat(`'+listaDeChats[i]['fromMsg']+'`)">';
+        chat += '<div class="chat_list" id="chat'+i+'" onclick="cargarChat(`'+listaDeChats[i]['dni']+'`,`chat'+i+'`)">';
         chat +=          '<div class="chat_people">';
         chat +=            '<div class="chat_ib">';
-        chat +=              '<h5>'+listaDeChats[i]['fromMsg']+'<span class="chat_date">'+(d.getMonth()+1)+'/'+d.getDate()+'</span></h5>';
-        chat +=              '<p>Test, which is a new approach to have all solutions astrology under one roof.</p>';
+        chat +=              '<h5>'+listaDeChats[i]['nombre']+' '+listaDeChats[i]['apellido']+'<span class="chat_date">'+(d.getMonth()+1)+'/'+d.getDate()+'</span></h5>';
+        chat +=              '<p id="ultimoMsg'+i+'">'+listaDeChats[i]['mensaje']+'</p>';
         chat +=            '</div>';
         chat +=          '</div>';
-        chat +=        '</div>';   
+        chat +=        '</div>';
+        //ultimoMensaje(listaDeChats[i]['fromMsg'],i); 
     }  
-    document.getElementById('inbox_chat').innerHTML += chat;
+    document.getElementById('inbox_chat').innerHTML = chat;
 }
 
-function cargarChat(dniChat){
+function ultimoMensaje(dniChat,i){
+    userChat = dniChat;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+            var ultimoMensaje = JSON.parse(xhttp.responseText);
+            document.getElementById('ultimoMsg'+i).innerHTML = ultimoMensaje[0]["mensaje"];
+        }
+    };
+    xhttp.open("POST", "php/consultas.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("consulta=ultimoMensaje&dniChat="+userChat);
+}
+
+function cargarChat(dniChat,chatNum){
     userChat = dniChat;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -116,6 +152,7 @@ function mostrarMensajes(listaDeMensajes){
             console.log("para mi: "+listaDeMensajes[i]['mensaje']);
         }
     }
+    document.getElementById('type_msg').style = "display:block;"
     document.getElementById('chat').innerHTML = chat;
 }
 
@@ -132,6 +169,7 @@ function enviarMsg(mensaje){
     if (this.readyState == 4 && this.status == 200) {
             cargarChat(userChat);
             document.getElementById('mensajeEnviar').value = "";
+            cargarMensajeria();
         }
     };
     xhttp.open("POST", "php/consultas.php", true);
