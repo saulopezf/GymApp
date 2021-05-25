@@ -34,7 +34,7 @@
 				$sql = "INSERT INTO matriculados VALUES ('".$_POST["dni"]."', null, null, null);";
 				$insertarMatriculado = mysqli_query($conexion, $sql);
 				if($insertarMatriculado){
-					mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass");
+					mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
 				}
 				else{
 					header("location:../error.php");

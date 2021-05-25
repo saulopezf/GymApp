@@ -11,6 +11,10 @@ var mailCorrecto=false;
 var usuCorrecto=false;
 var passCorrecto=false;
 
+function validarActualizacion(){
+
+}
+
 function validarFormulario(){
 		validarElementos();
 		if(dniCorrecto&&nombreCorrecto&&apeCorrecto&&tlfnoCorrecto&&mailCorrecto&&usuCorrecto&&passCorrecto){
@@ -90,7 +94,7 @@ function validarElementos(){
 		}
 
 		function validarPass(pass,error){
-				if(pass!=document.getElementById("formulario").elements.namedItem("password").value){
+				if(pass!=document.getElementById("formMatricular").elements.namedItem("password").value){
 					document.getElementById(error).innerHTML="Las contraseñas tienen que coincidir";
 				}
 				else{

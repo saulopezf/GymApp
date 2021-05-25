@@ -1,5 +1,6 @@
 <?php
     session_start();
+    if(isset($_SESSION['userData'])){
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>	
     <script src="js/validation.js"></script>
-    <script src="js/ScriptsGym.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
@@ -27,7 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="index.php">Inicio</a>
                     </li>
                     <li class="nav-item">
@@ -71,12 +71,12 @@
                             <?php
                                 if($_SESSION['userData']['user']=="gymAsist"){
                             ?>
-                                <a class="dropdown-item disabled" href="registro.php">Registrar</a>
+                                <a class="dropdown-item" href="registro.php">Registrar</a>
                             <?php
                                 }
                             ?>
                                 <a class="dropdown-item" href="mensajes.php">Mensajes</a>
-                                <a class="dropdown-item" href="config.php">Configuracion de la cuenta</a>
+                                <a class="dropdown-item disabled" href="config.php">Configuracion de la cuenta</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="php/cerrarSesion.php">Cerrar sesion</a>
                             </div>
@@ -94,67 +94,61 @@
         </div>
     </nav>
 
+    <?php
+
+            $host='localhost';
+            $usuario_bd='guest';
+            $password_bd='guest';
+            $nombre_bd='gimnasio';
+            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
+            if (mysqli_connect_errno()) { //(!$conexion)
+                printf("Conexión fallida: %s\n", mysqli_connect_error());
+                exit();
+            }          
+
+            $dni = $_SESSION['userData']['dni'];
+            $sql = "SELECT * FROM usuarios
+                    WHERE dni = '$dni'";
+            $resultado = mysqli_query($conexion, $sql);
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $usuarios[] = $fila;
+            }
+                $usuario = $usuarios[0];
+    ?>
+
     <div class="container-fluid">
     	
     	<div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-
             <div class="align-self-center">
-                <button onclick="formMatricular()">Matricular</button>
-                <button onclick="formClase()">Nueva Clase</button>
-                <form action="php/registrar.php" method="post" id="formMatricular" onsubmit="return validarFormulario()" style="display: none">
-                	
-                	<label>DNI: </label>
-                	<input type="text" name="dni" id="dniRegistro" required><span id="errorDNI"></span><br>
-                	
-                	<label>Nombre: </label>
-                	<input type="text" name="nombre" id="nombreRegistro" required><span id="errorNombre"></span><br>
-                	
-                	<label>Apellidos: </label>
-                	<input type="text" name="apellidos" id="apeRegistro" required><span id="errorApe"></span><br>
+                <?php
+                    echo "<h2>".$usuario['nombre']." ".$usuario['apellido']."</h2>";
+                    echo "<h3>DNI: ".$usuario['dni']."</h3>"
+                ?>
 
-                	<label>Sexo: </label><br>
-                	<input type="radio" name="sexo" value="M" required> Masculino<br>
-    				<input type="radio" name="sexo" value="F" required> Femenino<br>
-
-    				<label>Fecha de nacimiento: </label>
-                	<input type="date" name="fecha" required><br>
-
+                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
                 	<label for="tlfno">Telefono</label>
-					<input type="text" name="tlfno" id="tlfnoRegistro" required><span id="errorTlfno"></span><br>
-
-                	<label>Correo electronico: </label>
-          			<input type="text" name="mail" id="mailRegistro" required><span id="errorMail"></span><br>
-       			
-                	<label>User: </label>
-                	<input type="text" name="user" id="userRegistro" required><span id="errorUser"></span><br>
-
-                	<label for="password">Contraseña</label>
-					<input type="password" name="password" id="pass" required><br>
-					<label for="password">Repita la contraseña</label>
-					<input type="password" id="passRegistro"><span id="errorPass"></span><br>
-
-                	<input type="submit" name="login" value="Iniciar sesion">
-
+					<input type="text" name="tlfno" id="tlfnoRegistro" <?php echo "value='".$usuario['telefono']."'" ?> required><span id="errorTlfno"></span><br>
+                    <label for="password">Contraseña</label>
+                    <input type="password" name="password" id="pass" required><br>
+                    <input type="submit" name="update" value="Actualizar">
                 </form>
 
-                <form action="php/registrar.php" method="post" id="formClase" onsubmit="return validarFormulario()" style="display: none">
-                    
-                    <label>Nombre clase: </label>
-                    <input type="text" name="nombreClase" id="nombreClase" required><span id="errorClase"></span><br>
-                    
-                    <label>Monitor: </label>
-                    <input type="text" name="monitor" id="monitor" required><span id="errorMonitor"></span><br>
-                    
-                    <h4>Horario: </h4>
+                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
+                	<label>Correo electronico: </label>
+          			<input type="text" name="mail" id="mailRegistro" <?php echo "value='".$usuario['mail']."'" ?> required><span id="errorMail"></span><br>
+                    <label for="password">Contraseña</label>
+                    <input type="password" name="password" id="pass" required><br>
+                    <input type="submit" name="update" value="Actualizar">
+                </form>
 
-                    <label>Hora inicio: </label>
-                    <input type="date" name="horaInicio" required><br>
-
-                    <label>Hora fin: </label>
-                    <input type="text" name="horaFin" id="horaFin" required><br>
-
-                    <input type="submit" name="login" value="Iniciar sesion">
-
+                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
+                	<label for="password">Nueva Contraseña</label>
+					<input type="password" name="newpassword" id="pass" required><br>
+					<label for="password">Repita la contraseña</label>
+					<input type="password" id="passRegistro"><span id="errorPass"></span><br>
+                    <label for="password">Contraseña</label>
+                    <input type="password" name="password" id="pass" required><br>
+                    <input type="submit" name="update" value="Actualizar">
                 </form>
                 <span id="errorVali"></span>
             </div>
@@ -163,3 +157,9 @@
     </div>
 </body>
 </html>
+<?php
+    }
+    else{
+        header("location:index.php");
+    }
+?>
