@@ -8,11 +8,11 @@
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="css/navbar.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-      <script src="js/slider.js"></script>
       <style type="text/css">
 
         #mynav{
@@ -128,52 +128,6 @@
     </section>
 
 
-<!--    <div class="container-fluid">  
-
-        <div class="row justify-content-center" id="cabezera" style="">   
-
-            <div id="carouselExampleIndicators" class="carousel slide mx-auto" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="img/h1_hero.png.png" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>New York</h5>
-                        <p>We love the big apple</p>
-                    </div>
-                </div>
-        <div class="carousel-item active">
-        <img class="d-block w-100" src="img/xbg_3.jpg.pagespeed.ic.3D5M-4z-2Z.png" alt="First slide">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Chicago</h5>
-          <p>We love the big apple</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100" src="img/xbg_2.jpg.pagespeed.ic.00rxxJ64yj (1).png" alt="Second slide">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Los Angeles</h5>
-          <p>We love the big apple</p>
-        </div>
-      </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-    
-  </div>
-            </div>
-      </div>-->
-
 
       <section class="ftco-section">
             <div class="container">
@@ -187,7 +141,7 @@
             <div class="col-md-4 d-flex">
             <div class="services text-center" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
             <div class="icon-svg">
-            <img src="images/svg/001-fitness.svg" class="img-fluid" alt="">
+            <img src="img/001-fitness.svg" class="img-fluid" alt="">
             </div>
             <div class="text">
             <h2>Free Fitness <br>Training</h2>
@@ -198,7 +152,7 @@
             <div class="col-md-4 d-flex">
             <div class="services services-border text-center" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
             <div class="icon-svg">
-            <img src="images/svg/002-treadmill.svg" class="img-fluid" alt="">
+            <img src="img/002-treadmill.svg" class="img-fluid" alt="">
             </div>
             <div class="text">
             <h2>Tons of Cardio &amp; Strength</h2>
@@ -209,7 +163,7 @@
             <div class="col-md-4 d-flex">
             <div class="services services-border text-center" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
             <div class="icon-svg">
-            <img src="images/svg/003-vip-card.svg" class="img-fluid" alt="">
+            <img src="img/003-vip-card.svg" class="img-fluid" alt="">
             </div>
             <div class="text">
             <h2>No Commentment Memberships</h2>
@@ -220,7 +174,130 @@
             </div>
             </div>
       </section>
+<section class="ftco-section">
+<div class="container-fluid">
+<div class="row justify-content-center pb-5">
+<div class="col-md-7 text-center heading-section" data-aos="fade-up" data-aos-duration="1000">
+<span class="subheading">Our Pricing</span>
+<h2 class="mb-3">Pricing &amp; <span>Packages</span></h2>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="100">
+<div class="block-7">
+<div class="text-center">
+<span class="excerpt d-block">Basic Plan</span>
+<span class="price"><sup>$</sup> <span class="number">49</span></span>
+<ul class="pricing-text mb-3">
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Personal Trainer</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Convienient Time</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Special Class</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Group Traning</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Free Fitness Traning</li>
+</ul>
+<a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200">
+<div class="block-7">
+<div class="text-center">
+<span class="excerpt d-block">Beginner Plan</span>
+<span class="price"><sup>$</sup> <span class="number">79</span></span>
+<ul class="pricing-text mb-3">
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Personal Trainer</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Convienient Time</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Special Class</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Group Traning</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Free Fitness Traning</li>
+</ul>
+<a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="300">
+<div class="block-7">
+<div class="text-center">
+<span class="excerpt d-block">Premium Plan</span>
+<span class="price"><sup>$</sup> <span class="number">109</span></span>
+<ul class="pricing-text mb-3">
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Personal Trainer</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Convienient Time</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Special Class</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Group Traning</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Free Fitness Traning</li>
+</ul>
+<a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-3" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="400">
+<div class="block-7">
+<div class="text-center">
+<span class="excerpt d-block">Ultimate Plan</span>
+<span class="price"><sup>$</sup> <span class="number">149</span></span>
+<ul class="pricing-text mb-3">
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Personal Trainer</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Convienient Time</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Special Class</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Group Traning</li>
+<li><span class="fa ion-ios-arrow-round-forward me-2"></span>Free Fitness Traning</li>
+</ul>
+<a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
+</div>
+</div>
+</div>
+</div>
+<div class="row justify-content-center mt-md-5">
+<div class="col-xl-10">
+<div class="row">
+<div class="col-md-4 d-flex align-items-stretch">
+<div class="services p-4 d-flex align-items-start" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-sport"></span></div>
+<div class="text ps-4">
+<h2>Thousands of Equipments</h2>
+<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+</div>
+</div>
+</div>
+<div class="col-md-4 d-flex align-items-stretch">
+<div class="services services-border p-4 d-flex align-items-start" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-gym"></span></div>
+<div class="text ps-4">
+<h2>Open 24/7 Dazko Gym Fitness</h2>
+<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+</div>
+</div>
+</div>
+<div class="col-md-4 d-flex align-items-stretch">
+<div class="services services-border p-4 d-flex align-items-start" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-protein-supplement"></span></div>
+<div class="text ps-4">
+<h2>Food Supplements</h2>
+<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
+
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
       
 </body>
 </html>

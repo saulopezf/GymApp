@@ -8,6 +8,7 @@
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="css/navbar.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -122,31 +123,41 @@
       <div class="container-fluid text-center">
         <div class="d-flex justify-content-center p-5">
         <?php
-          $host='localhost';
-          $usuario_bd='guest';
-          $password_bd='guest';
-          $nombre_bd='gimnasio';
-          $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-          if (mysqli_connect_errno()) { //(!$conexion)
-              printf("Conexión fallida: %s\n", mysqli_connect_error());
-              exit();
-          }
-          $sql = "SELECT clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
-                  ORDER BY dia ASC";
-          if(isset($_SESSION['userData'])){
-            if($_SESSION['userData']['user']=="gymMonitor"){
-              $dniMonitor = $_SESSION['userData']['dni'];
-              $sql = "SELECT clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
-                  WHERE clases.dniMonitor='$dniMonitor'
-                  ORDER BY dia ASC";
+            $host='localhost';
+            $usuario_bd='guest';
+            $password_bd='guest';
+            $nombre_bd='gimnasio';
+            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
+            if (mysqli_connect_errno()) { //(!$conexion)
+                printf("Conexión fallida: %s\n", mysqli_connect_error());
+                exit();
             }
-          }
-          
-          $resultado = mysqli_query($conexion, $sql);
-          $clases = [];
-          while ($fila = mysqli_fetch_assoc($resultado)) {
-              $clases[] = $fila;
-          }
+            $sql = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
+                  ORDER BY dia ASC";
+            if(isset($_SESSION['userData'])){
+                if($_SESSION['userData']['user']=="gymMonitor"){
+                    $dniMonitor = $_SESSION['userData']['dni'];
+                    $sql = "SELECT clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
+                            WHERE clases.dniMonitor='$dniMonitor'
+                            ORDER BY dia ASC";
+                }
+                if($_SESSION['userData']['user']=="gymMatriculado"){
+                    $dniMatriculado = $_SESSION['userData']['dni'];
+                    $sql2 = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase INNER JOIN apuntados ON apuntados.idHorario=horarios.id
+                        WHERE dniMatriculado='$dniMatriculado'
+                        ORDER BY dia ASC";
+                    $resultado2 = mysqli_query($conexion, $sql2);
+                    $clasesApuntadas = [];
+                    while ($fila = mysqli_fetch_assoc($resultado2)) {
+                        $clasesApuntadas[] = $fila;
+                    }
+                }
+            }
+            $resultado = mysqli_query($conexion, $sql);
+            $clases = [];
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $clases[] = $fila;
+            }
             $diasSemana = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo",];
             $horaInicio = 8;
             $horaFin = 9;
@@ -158,27 +169,55 @@
             while ($horaInicio<22) { 
                 echo "<tr><td scope='row'>$horaInicio:00 - $horaFin:00</td>";
                 for ($i=0; $i < count($diasSemana); $i++) { 
-                  echo "<td>";
-                  foreach ($clases as $indice => $clase) {
-                    $d=strtotime($clase['horaInicio']);
-                    if(date("H",$d)==$horaInicio&&$clase['dia']==$diasSemana[$i]){
-                      echo strtoupper($clase['nombre']);
-                      if(isset($_SESSION['userData'])){
-                        if($_SESSION['userData']['user']=="gymMatriculado"){
-                          echo "<br><button class='btn btn-danger'>Apuntarse</button>";
+                    echo "<td>";
+                    foreach ($clases as $indice => $clase) {
+                        $d=strtotime($clase['horaInicio']);
+                        if(date("H",$d)==$horaInicio&&$clase['dia']==$diasSemana[$i]){
+                            echo strtoupper($clase['nombre']);
+                            if(isset($_SESSION['userData'])){
+                                if($_SESSION['userData']['user']=="gymMatriculado"){
+                                    $estaApuntado = false;
+                                    foreach ($clasesApuntadas as $indice => $claseApuntada) {
+                                        if($claseApuntada['idHorario']==$clase['idHorario']){
+                                            $estaApuntado = true;
+                                        }
+                                    }
+                                    if($estaApuntado){
+                                        echo "<br><button value='".$clase['idHorario']."' class='btn btn-success'>Apuntado</button><form action='php/apuntarse.php' method='post'><button type='submit' name='desapuntarse' value='".$clase['idHorario']."' class='btn btn-danger'>X</button></form>";
+                                    }
+                                    else{
+                                        echo "<br><form action='php/apuntarse.php' method='post'><button type='submit' name='apuntarse' value='".$clase['idHorario']."' class='btn btn-danger'>Apuntarse</button></form>";
+                                    }
+                          //INSERT INTO `apuntados` (`dniMatriculado`, `idHorario`) VALUES ('11111111T', '2');
+                                }
+                            }
                         }
-                      }
                     }
-                  }
-                  echo "</td>";
+                    echo "</td>";
                 }
                 echo "</tr>";
                 $horaInicio++;
                 $horaFin++;
             }   
-          ?>
-          </table>
-          </div>
+        ?>
+        </table>
+        </div>
       </div>
+
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
 </body>
 </html>

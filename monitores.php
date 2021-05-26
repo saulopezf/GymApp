@@ -94,7 +94,7 @@
         </div>
     </nav>
       
-      <div class="container-fluid" id="monitores">
+    <div class="container-fluid">
         <?php
 
             $host='localhost';
@@ -116,22 +116,41 @@
                     $monitores[] = $fila;
                 }
                 $monitor = $monitores[0];
+                $sql = "SELECT idClase,nombre FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor
+                        WHERE idMonitor='$idMonitor'";
+                $resultado = mysqli_query($conexion, $sql);
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    $clases[]=$fila;
+                }
         ?>
-            <div class="container-fluid">
-                  <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
-                  <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
-                  <p> Clases: </p>
-                <?php
-                    if(isset($_SESSION['userData'])){
-                ?>
-                  <form action="mensajes.php" method="post">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-6 offset-md-2 col-md-4 image-container">
+                        <img width="100%" height="" src="img/xtrainer-2.png.pagespeed.ic.jSsfbaptsw.png">
+                    </div>
+                    <div class="col-6 col-md-6 info">
+                        <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
+                        <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
+                        <p> Clases: 
+                        <?php
+                            foreach ($clases as $key => $clase) {
+                                echo "<a href='clases.php?idClase=".$clase['idClase']."'>".$clase['nombre']."</a>";
+                            }
+                        ?>
+                        </p>
                     <?php
-                        echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-primary">asdf</button>';
+                        if(isset($_SESSION['userData'])){
                     ?>
-                  </form>
-                <?php
-                    }
-                ?>
+                      <form action="mensajes.php" method="post">
+                        <?php
+                            echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-primary">Mensaje</button>';
+                        ?>
+                      </form>
+                    <?php
+                        }
+                    ?>
+                    </div>
+                </div>
             </div>
         <?php
             }
@@ -140,9 +159,10 @@
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $monitores[] = $fila;
-                } 
+                }
+                echo '<div class="row" id="monitores">';
                 foreach ($monitores as $key => $monitor) {
-                    echo '<div class="card" style="width: 18rem">';
+                    echo '<div class="card col-12 col-md-6 col-lg-3 profesor">';
                     echo '<div class="card-body">';
                     echo '<h5 class="card-title">'.$monitor['nombre'].' '.$monitor['apellido'].'</h5>';
                     echo '<p class="card-text">'.$monitor['titulacion'].'</p>';
@@ -151,6 +171,7 @@
                     echo '</form>';
                     echo '</div></div>';
                 }
+                echo '</div>';
             }    
         ?>     
 </body>

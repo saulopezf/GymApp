@@ -9,11 +9,41 @@
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="css/navbar.css">
-      <link rel="stylesheet" type="text/css" href="css/style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+      <style type="text/css">
+
+        #imagenTop{
+            background-image: url("img/xbg_5.jpg.pagespeed.ic.AP6oI9aFte.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100%;
+        }
+
+        form{
+            font-size: 18px;
+            font-weight: 700;
+            font-style: italic;
+            color: #e1193e;
+        }
+        form .btn{
+            font-size: 16px;
+            font-weight: 700;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .gym-login{
+            background-color: rgba(255,255,255,0.4);
+            padding: 6%;
+            border-radius: 25px;
+
+        }
+
+    </style>
 </head>
 <body>
 

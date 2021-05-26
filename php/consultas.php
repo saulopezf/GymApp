@@ -40,26 +40,12 @@
             $mensaje = $_POST['mensaje'];
             $sql = "INSERT INTO mensajes VALUES (null,'$dniUsuario','$dniChat','$mensaje',NOW())";
             break;
+        case "nuevoChat":
+            $dniChat = $_POST['dniChat'];
+            $sql = "SELECT nombre,apellido FROM usuarios WHERE dni='$dniChat'";
+            break;
     }
-/*SELECT * FROM (
-        SELECT fromMsg AS fromMsg1,toMsg AS toMsg1,MAX(fechaMsg) AS fechaMsg FROM mensajes WHERE toMsg='11111111T' GROUP BY fromMsg
-        UNION ALL
-        SELECT fromMsg AS fromMsg2,toMsg AS toMsg2,MAX(fechaMsg) AS fechaMsg FROM mensajes WHERE fromMsg='11111111T' GROUP BY toMsg
-    ) AS u WHERE fromMsg1!=toMsg2
 
-SELECT IF(fromMsg='11111111T', fromMsg, IF(toMsg='11111111T',toMsg,CONTINUE)) AS userMsg,toMsg,MAX(fechaMsg),mensaje 
-FROM mensajes
-GROUP BY toMsg
-
-SELECT nombre,apellido,c3.dni,c3.mensaje,c3.fechaMsg FROM(SELECT c1.toMsg as dni,c1.mensaje,c1.fechaMsg FROM(SELECT * FROM mensajes WHERE fromMsg='11111111T') AS c1
-                                   UNION ALL
-                                   SELECT c2.fromMsg as dni,c2.mensaje,c2.fechaMsg FROM(SELECT * FROM mensajes WHERE toMsg='11111111T') AS c2) AS c3 
-INNER JOIN usuarios ON usuarios.dni=c3.dni 
-WHERE c3.fechaMsg = (SELECT MAX(c3.fechaMsg) FROM mensajes WHERE (fromMsg='11111111T' AND toMsg=c3.dni) OR  (fromMsg=c3.dni AND toMsg='11111111T'))
-
-SELECT nombre,apellido,fromMsg,toMsg,MAX(fechaMsg) as fechaMsg,mensaje FROM mensajes INNER JOIN usuarios ON fromMsg=dni
-                    WHERE toMsg='$dniUsuario' GROUP BY fromMsg
-*/
     $resultado_sql=mysqli_query($conexion,$sql);
     if(!$resultado_sql){
         exit("error");

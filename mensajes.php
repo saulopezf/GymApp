@@ -16,7 +16,23 @@
     <script src="js/ScriptsChat.js"></script>
     <?php
         if(isset($_POST['dni'])){
-            echo "<script>userChat = '".$_POST['dni']."'; nuevoChat = true;</script>";
+            $host='localhost';
+            $usuario_bd='root';
+            $password_bd='';
+            $nombre_bd='gimnasio';
+            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
+            if (mysqli_connect_errno()) { //(!$conexion)
+                printf("Conexión fallida: %s\n", mysqli_connect_error());
+                exit();
+            }
+            $dniNuevoChat = $_POST['dni'];
+            $sql = "SELECT nombre,apellido FROM usuarios WHERE dni='$dniNuevoChat'";
+            $resultado = mysqli_query($conexion, $sql);
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $usuario[] = $fila;
+            }
+            $nuevoChat = $usuario[0];
+            echo "<script>dniNuevoChat = '".$dniNuevoChat."';nombre = '".$nuevoChat['nombre']."';apellidos = '".$nuevoChat['apellido']."'; nuevoChat = true;</script>";
         }
     ?>
     <link rel="stylesheet" type="text/css" href="css/mensajes.css">

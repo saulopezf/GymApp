@@ -32,20 +32,20 @@ function mostrarUltimosChats(listaDeChats){
     if(nuevoChat){
         var c=0;
         for(var i=0;i<listaDeChats.length;i++){
-            if(listaDeChats[i]['dni']==userChat){
+            if(listaDeChats[i]['dni']==dniNuevoChat){
                 c++;
             }
         }
         if(c==0){
-            chat += '<div class="chat_list" onclick="cargarChat(`'+userChat+'`)">';
+            chat += '<div class="chat_list" onclick="cargarChat(`'+dniNuevoChat+'`)">';
             chat +=          '<div class="chat_people">';
             chat +=            '<div class="chat_ib">';
-            chat +=              '<h5>'+userChat+' (Nuevo Chat)<span class="chat_date"></span></h5>';
+            chat +=              '<h5>'+nombre+' '+apellidos+' (Nuevo Chat)<span class="chat_date"></span></h5>';
             chat +=              '<p></p>';
             chat +=            '</div>';
             chat +=          '</div>';
             chat +=        '</div>';
-            nuevoChat = false;
+            //nuevoChat = false;
         }
         cargarChat(userChat);
     }
