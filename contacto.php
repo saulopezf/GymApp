@@ -2,58 +2,37 @@
     session_start();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<title>GymApp</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/navbar.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>	
-    <script src="js/validation.js"></script>
-    <script src="js/ScriptsGym.js"></script>
-    <style type="text/css">
-        body{
-            background-image: url("img/xbg_5.jpg.pagespeed.ic.AP6oI9aFte.png");
-        }
-
-        .btn-registro{
-            width: 500px;
-            height: 500px;
-            line-height: 500px;
-            font-size: 30px;
-            font-weight: 1000;
-            font-style: italic;
-            color: #e1193e !important;
-            text-transform: uppercase;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            transition: transform .2s;
-            -webkit-text-stroke: 2px black;
-
-        }
-
-        #btnMatricular{
-            background-image: url("img/xbg_2.jpg.pagespeed.ic.00rxxJ64yj (1).png");
-
-        }
-
-        .btn-registro:hover{
-            transform: scale(1.1);
-        }
-
-        #btnClase{
-            background-image: url("img/loginbg.jpg");
-        }
-
-    </style>
+      <title>GymApp</title>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="css/navbar.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+      <style type="text/css">
+          
+        .map-container{
+overflow:hidden;
+padding-bottom:56.25%;
+position:relative;
+height:0;
+}
+.map-container iframe{
+left:0;
+top:0;
+height:100%;
+width:100%;
+position:absolute;
+}
+      </style>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
+
+    <nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
         <div class="container-xl">
             <a class="navbar-brand" href="index.php"><span class="">GymApp <small>Bodybuilding &amp; Fitness</small></span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +43,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="index.php">Inicio</a>
                     </li>
                     <li class="nav-item">
@@ -108,7 +87,7 @@
                             <?php
                                 if($_SESSION['userData']['user']=="gymAsist"){
                             ?>
-                                <a class="dropdown-item disabled" href="registro.php">Registrar</a>
+                                <a class="dropdown-item" href="registro.php">Registrar</a>
                             <?php
                                 }
                             ?>
@@ -130,15 +109,61 @@
             </div>
         </div>
     </nav>
+      
+    <div class="container-fluid pb-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6 z-depth-1-half">
+                        <h2>Nuestros gimnasios</h2>
+<div id="map-container-google-1" class=" map-container " style="height: 500px">
 
-    <div class="container-fluid" style="padding-top: 7%;padding-bottom: 15%;">
-    	
-    	<div class="row justify-content-center" id="botones-registro">
-            <a class="btn btn-registro" id="btnMatricular" href="registrousuario.php" >Matricular</a>
-            <a class="btn btn-registro" id="btnClase" href="registroclase.php" >Nueva Clase</a>
+  <iframe src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
+</div>
+
+                
+    
+      <div class="col-lg-6 col-md-offset-3 mt-5">
+        <div class="well well-sm">
+          <form class="form-horizontal" action="" method="post">
+          <fieldset>
+            <legend class="text-center">Contact us</legend>
+    
+            <!-- Name input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="name">Name</label>
+              <div class="col-md-9">
+                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+              </div>
+            </div>
+    
+            <!-- Email input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="email">Your E-mail</label>
+              <div class="col-md-9">
+                <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+              </div>
+            </div>
+    
+            <!-- Message body -->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="message">Your message</label>
+              <div class="col-md-9">
+                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+              </div>
+            </div>
+    
+            <!-- Form actions -->
+            <div class="form-group">
+              <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-danger btn-lg">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+          </form>
         </div>
-            
+      </div>
     </div>
+</div> 
 
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">

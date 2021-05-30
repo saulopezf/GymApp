@@ -11,94 +11,98 @@ var mailCorrecto=false;
 var usuCorrecto=false;
 var passCorrecto=false;
 
-function validarActualizacion(){
-
-}
 
 function validarFormulario(){
 		validarElementos();
-		if(dniCorrecto&&nombreCorrecto&&apeCorrecto&&tlfnoCorrecto&&mailCorrecto&&usuCorrecto&&passCorrecto){
+		if(dniCorrecto&&nombreCorrecto&&apeCorrecto&&tlfnoCorrecto&&mailCorrecto&&passCorrecto){
 			return true;
 		}
 		else{
-			document.getElementById('errorVali').innerHTML="Por favor, rellene los campos incorrectos o vacios";
-			return false;	
+
+			document.getElementById('errorVali').innerHTML="<div class='alert alert-danger text-center'>Por favor, rellene los campos incorrectos o vacios</div>";
+			return false;
+			
 		}
 }
 
 function validarElementos(){
-	validarDNI(document.getElementById('dniRegistro').value,"errorDNI");
-	validarNombre(document.getElementById('nombreRegistro').value,"errorNombre");
-	validarApellidos(document.getElementById('apeRegistro').value,"errorApe");
-	validarMail(document.getElementById('mailRegistro').value,"errorMail");
-	validarTlfno(document.getElementById('tlfnoRegistro').value,"errorTlfno");
-	validarUser(document.getElementById('userRegistro').value,"errorUser");
-	validarPass(document.getElementById('passRegistro').value,"errorPass")
+	validarDNI(document.getElementById('dniRegistro').value,document.getElementById('dniRegistro'));
+	validarNombre(document.getElementById('nombreRegistro').value,document.getElementById('nombreRegistro'));
+	validarApellidos(document.getElementById('apeRegistro').value,document.getElementById('apeRegistro'));
+	validarMail(document.getElementById('mailRegistro').value,document.getElementById('mailRegistro'));
+	validarTlfno(document.getElementById('tlfnoRegistro').value,document.getElementById('tlfnoRegistro'));
+	validarPass(document.getElementById('passRegistro').value,document.getElementById('passRegistro'));
+}
+
+function esValido(getId){
+	if (getId.classList.contains('is-invalid')) {
+		getId.classList.remove('is-invalid');
+	}
+}
+
+function noEsValido(getId){
+	getId.classList.add('is-invalid');
 }
 
 
-		function validarDNI(dni,error){
+		function validarDNI(dni,getId){
 				if(!dniRegex.test(dni)){
-					document.getElementById(error).innerHTML="DNI introducido incorrecto";
+					noEsValido(getId);
 				}
 				else{
 					dniCorrecto=true;
-					document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}
 				
 		}
 
-		function validarNombre(nombre,error){
+		function validarNombre(nombre,getId){
 				if(!noNumber.test(nombre)){
-					document.getElementById(error).innerHTML="No puede contener numeros";
+					noEsValido(getId);
 				}
 				else{
 					nombreCorrecto=true;
-					document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}
 		}
 
-		function validarApellidos(apellido,error){
+		function validarApellidos(apellido,getId){
 				if(!noNumber.test(apellido)){
-					document.getElementById(error).innerHTML="No puede contener numeros";
+					noEsValido(getId);
 				}
 				else{
 					apeCorrecto=true;
-					document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}
 		}
 
-		function validarMail(mail,error){
+		function validarMail(mail,getId){
 				if(!mailRegex.test(mail)){
-					document.getElementById(error).innerHTML="Email introducido incorrecto";	
+					noEsValido(getId);
 				}
 				else{
 					mailCorrecto=true;
-					document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}
 		}
 
-		function validarTlfno(tlfno,error){
+		function validarTlfno(tlfno,getId){
 				if(!tlfnoRegex.test(tlfno)){
-					document.getElementById(error).innerHTML="Numero introducido incorrecto";
+					noEsValido(getId);
 				}
 				else{
 					tlfnoCorrecto=true;
-					document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}		
 		}
 
-		function validarUser(user,error){
-				usuCorrecto=true;
-				document.getElementById(error).innerHTML="";
-		}
 
-		function validarPass(pass,error){
+		function validarPass(pass,getId){
 				if(pass!=document.getElementById("formMatricular").elements.namedItem("password").value){
-					document.getElementById(error).innerHTML="Las contraseñas tienen que coincidir";
+					noEsValido(getId);
 				}
 				else{
 					passCorrecto=true;
-				document.getElementById(error).innerHTML="";
+					esValido(getId);
 				}		
 		}
