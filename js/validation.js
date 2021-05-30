@@ -10,6 +10,44 @@ var tlfnoCorrecto=false;
 var mailCorrecto=false;
 var usuCorrecto=false;
 var passCorrecto=false;
+var monitorCorrecto=false;
+var passValidado=false;
+
+function updateTlfno(){
+	validarTlfno(document.getElementById('tlfnoRegistro').value,document.getElementById('tlfnoRegistro'));
+	compararPass(document.getElementById('passwordTlfno').value,document.getElementById('passwordTlfno'));
+	if(tlfnoCorrecto&&passValidado){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+function updateMail(){
+	validarMail(document.getElementById('mailRegistro').value,document.getElementById('mailRegistro'));
+	compararPass(document.getElementById('passwordMail').value,document.getElementById('passwordMail'));
+	if(mailCorrecto&&passValidado){
+		return true;
+	}
+	else{
+		return false;
+	}
+	
+}
+
+function updatePass(){
+	validarPass(document.getElementById('passRegistro').value,document.getElementById("formPass").elements.namedItem("newpassword").value,document.getElementById('passRegistro'));
+	compararPass(document.getElementById('passwordPass').value,document.getElementById('passwordPass'));
+	if(passCorrecto&&passValidado){
+		return true;
+	}
+	else{
+		return false;
+	}
+	
+}
+
 
 
 function validarFormulario(){
@@ -25,13 +63,54 @@ function validarFormulario(){
 		}
 }
 
+function validarNuevaClase(){
+	validarNombre(document.getElementById('nombreClase').value,document.getElementById('nombreClase'));
+	validarMonitor(document.getElementById('monitorClase').value,document.getElementById('monitorClase'));
+	if(nombreCorrecto&&monitorCorrecto){
+		return true;
+	}
+	else{
+		document.getElementById('errorVali').innerHTML="<div class='alert alert-danger text-center'>Por favor, rellene los campos incorrectos o vacios</div>";
+		return false;	
+	}
+}
+
+function compararPass(pass,getId){
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+            var passCoincide = xhttp.responseText;
+            if(passCoincide){
+            	esValido(getId);
+				passValidado=true;
+            }
+            else{
+            	noEsValido(getId);
+            }
+        }
+    };
+    xhttp.open("POST", "php/consultas.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("consulta=validarPass&password="+pass);
+}
+
+function validarMonitor(monitor,getId){
+	if(monitor=="seleccionar"){
+		noEsValido(getId);
+	}
+	else{
+		esValido(getId);
+		monitorCorrecto=true;
+	}
+}
+
 function validarElementos(){
 	validarDNI(document.getElementById('dniRegistro').value,document.getElementById('dniRegistro'));
 	validarNombre(document.getElementById('nombreRegistro').value,document.getElementById('nombreRegistro'));
 	validarApellidos(document.getElementById('apeRegistro').value,document.getElementById('apeRegistro'));
 	validarMail(document.getElementById('mailRegistro').value,document.getElementById('mailRegistro'));
 	validarTlfno(document.getElementById('tlfnoRegistro').value,document.getElementById('tlfnoRegistro'));
-	validarPass(document.getElementById('passRegistro').value,document.getElementById('passRegistro'));
+	validarPass(document.getElementById('passRegistro').value,document.getElementById("formMatricular").elements.namedItem("password").value,document.getElementById('passRegistro'));
 }
 
 function esValido(getId){
@@ -97,8 +176,8 @@ function noEsValido(getId){
 		}
 
 
-		function validarPass(pass,getId){
-				if(pass!=document.getElementById("formMatricular").elements.namedItem("password").value){
+		function validarPass(pass,passComparar,getId){
+				if(pass!=passComparar){
 					noEsValido(getId);
 				}
 				else{

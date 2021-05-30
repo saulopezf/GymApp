@@ -18,7 +18,7 @@
             exit($_SESSION['userData']['dni']);
             break;
         case "listaMonitores":
-            $sql = "SELECT dni,nombre,apellido,titulacion FROM monitor INNER JOIN usuario ON usuario.dni=monitor.dniMonitor";
+            $sql = "SELECT dni,nombre,apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
             break;
         case "listaDeChats":
             $dniUsuario = $_SESSION['userData']['dni'];
@@ -43,6 +43,21 @@
         case "nuevoChat":
             $dniChat = $_POST['dniChat'];
             $sql = "SELECT nombre,apellido FROM usuarios WHERE dni='$dniChat'";
+            break;
+        case "validarPass":
+            $usuario=$_SESSION['userData']['userName'];
+            $pass_code=hash_hmac('sha512', $_POST['password'], 'secret');
+
+            $sql = "SELECT * FROM usuarios
+                    WHERE user='$usuario' AND pass='$pass_code'";
+            $resultado = mysqli_query($conexion, $sql);
+
+            if(mysqli_num_rows($resultado)==0){
+                exit(false);
+            }
+            else{
+                exit(true);
+            }
             break;
     }
 

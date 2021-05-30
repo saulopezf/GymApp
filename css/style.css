@@ -40,6 +40,14 @@
             -webkit-text-stroke: 1.5px black;
             margin-bottom: 20px;
         }
+        .titulo-mensajes{
+          font-size: 40px;
+            font-weight: 700;
+            color: #e1193e !important;
+            -webkit-text-stroke: 1px black;
+            text-transform: uppercase;
+
+        }
 
 .ftco-section {
   padding: 8em 0;

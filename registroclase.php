@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="js/validation.js"></script>
+    <script src="js/ScriptsGym.js"></script>
 </head>
 <body>
 
@@ -101,7 +102,7 @@
                 <div class="row justify-content-center titulo-registro">
                     Nueva Clase
                 </div>
-                <form action="" method="post" id="formClase" onsubmit="return validarNuevaClase()">
+                <form action="php/registrar.php" method="post" id="formClase" onsubmit="return validarNuevaClase()">
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label>Nombre clase</label>
@@ -113,20 +114,40 @@
                         <div class="col-md-6 mb-3">
                             <label>Monitor</label>
                             <select name="monitorClase" id="monitorClase" class="form-control" required>
-                                <option>Seleccione un monitor...</option>
+                                <option value="seleccionar" selected>Seleccione un monitor...</option>
+                                <script type="text/javascript">
+                                    selectMonitor();
+                                </script>
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione un monitor valido.
                             </div>
                         </div>
                     </div>
-                    <h4>Horario: </h4>
-
-                    <label>Hora inicio: </label>
-                    <input type="time" min="8:00" max="22:00" name="horaInicio" required>
-
-                    <label>Hora fin: </label>
-                    <input type="text" name="horaFin" id="horaFin" required>
+                    <div id="containerHorario">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label>Dia: </label>
+                            <select name="diasSemana0" id="diasSemana0" class="form-control" required>
+                                <script type="text/javascript">
+                                    selectDias('diasSemana0');
+                                </script>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Horario: </label>
+                            <select name="horario0" id="horario0" class="form-control" required>
+                                <script type="text/javascript">
+                                    selectHorario('horario0');
+                                </script>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <button type="button" class="btn btn-success" id="nuevoHorario" onclick="formHorario()">Nuevo horario</button>
+                    </div>
+                    <div class="form-row justify-content-center" id="errorVali"></div>
                     <div class="form-row justify-content-center mt-3">
                         <input type="submit" name="nuevaClase" class="w-100 btn btn-danger" value="AÑADIR NUEVA CLASE">
                     </div>

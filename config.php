@@ -9,6 +9,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -117,44 +118,86 @@
     ?>
 
     <div class="container-fluid">
-    	
-    	<div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-            <div class="align-self-center">
-                <?php
-                    echo "<h2>".$usuario['nombre']." ".$usuario['apellido']."</h2>";
-                    echo "<h3>DNI: ".$usuario['dni']."</h3>"
-                ?>
 
-                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
-                	<label for="tlfno">Telefono</label>
-					<input type="text" name="tlfno" id="tlfnoRegistro" <?php echo "value='".$usuario['telefono']."'" ?> required><span id="errorTlfno"></span><br>
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="pass" required><br>
-                    <input type="submit" name="update" value="Actualizar">
+        <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
+            <div class="align-self-center gym-register">
+                <div class="row justify-content-center titulo-registro">
+                    <?php
+                    echo "<h1>".$usuario['nombre']." ".$usuario['apellido']."</h1>";
+                    ?>
+                </div>
+
+                <form action="php/actualizar.php" method="post" onsubmit="return updateTlfno()">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label>Telefono</label>
+                            <input type="text" name="tlfno" id="tlfnoRegistro" class="form-control" <?php echo "value='".$usuario['telefono']."'" ?> required>
+                            <div class="invalid-feedback">
+                                Numero introducido incorrecto.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="password">Contraseña</label>
+                            <input type="password" name="password1" id="passwordTlfno"  class="form-control" required>
+                            <div class="invalid-feedback">
+                                La contraseña no es correcta.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type="submit" name="submitTlfno" class="btn btn-danger" value="Actualizar">
+                    </div>
                 </form>
 
-                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
-                	<label>Correo electronico: </label>
-          			<input type="text" name="mail" id="mailRegistro" <?php echo "value='".$usuario['mail']."'" ?> required><span id="errorMail"></span><br>
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="pass" required><br>
-                    <input type="submit" name="update" value="Actualizar">
+                <form action="php/actualizar.php" method="post" onsubmit="return updateMail()">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label>Correo electronico: </label>
+                            <input type="text" name="mail" id="mailRegistro" class="form-control" <?php echo "value='".$usuario['mail']."'" ?> required>
+                            <div class="invalid-feedback">
+                                Email introducido incorrecto.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="password">Contraseña</label>
+                            <input type="password" name="password" id="passwordMail" class="form-control" required>
+                            <div class="invalid-feedback">
+                                La contraseña no es correcta.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type="submit" name="submitMail" class="btn btn-danger" value="Actualizar">
+                    </div>
                 </form>
 
-                <form action="php/actualizar.php" method="post" id="formulario" onsubmit="return validarActualizacion()">
-                	<label for="password">Nueva Contraseña</label>
-					<input type="password" name="newpassword" id="pass" required><br>
-					<label for="password">Repita la contraseña</label>
-					<input type="password" id="passRegistro"><span id="errorPass"></span><br>
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="pass" required><br>
-                    <input type="submit" name="update" value="Actualizar">
-                </form>
-                <span id="errorVali"></span>
-            </div>
+            <form action="php/actualizar.php" method="post" id="formPass" onsubmit="return updatePass()">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                       <label>Nueva Contraseña</label>
+                       <input type="password" name="newpassword" class="form-control"required>
+                       <label>Repita la contraseña</label>
+                       <input type="password" id="passRegistro" class="form-control">
+                       <div class="invalid-feedback">
+                            Las contraseñas tienen que coincidir.
+                        </div>
+                   </div>
+                   <div class="col-md-6 mb-3">
+                        <label for="password">Contraseña</label>
+                        <input type="password" name="password" id="passwordPass" class="form-control" required>
+                        <div class="invalid-feedback">
+                            La contraseña no es correcta.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <input type="submit" name="submitPass" class="btn btn-danger"  value="Cambiar contraseña">
+                </div>
+            </form>
         </div>
-
     </div>
+
+</div>
 </body>
 </html>
 <?php

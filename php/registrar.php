@@ -26,28 +26,50 @@
 	    }
 
 	    if($_SERVER["REQUEST_METHOD"] == "POST"){
-	    	$randomPass = randomPassword();
-	    	$pass = hash_hmac('sha512', $randomPass, 'secret');
-	    	$sql = "INSERT INTO usuarios VALUES ('".$_POST["dni"]."', '".$_POST["nombre"]."', '".$_POST["apellidos"]."', '".$_POST["sexo"]."', '".$_POST["fecha"]."', ".$_POST["tlfno"].", '".$_POST["mail"]."', '".$_POST["user"]."', '$pass', 'matriculado');";
-			$insertarUsuario = mysqli_query($conexion, $sql);
-			if($insertarUsuario){
-				$sql = "INSERT INTO matriculados VALUES ('".$_POST["dni"]."', null, null, null);";
-				$insertarMatriculado = mysqli_query($conexion, $sql);
-				if($insertarMatriculado){
-					mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
+	    	if(isset($_POST['nuevaClase'])){
+	    		$sql = "INSERT INTO clases VALUES (null,'".$_POST['monitorClase']."','".$_POST['nombreClase']."');";
+				$insertarClase = mysqli_query($conexion, $sql);
+
+				if($insertarClase){
+					$sql = "SELECT max(idClase) as idClase FROM clases";
+					$resultado = mysqli_query($conexion, $sql);
+					$claseInsertada = mysqli_fetch_assoc($resultado);
+
+					$horarios = (count($_POST) - 3)/2;
+					for ($i=0; $i < $horarios; $i++) { 
+						$dia = $_POST["diasSemana".$i];
+                        $horaInicio = $_POST["horario".$i];
+                        $horaFin = $horaInicio+1;
+						$sql = "INSERT INTO horarios VALUES (null,'".$claseInsertada['idClase']."','$dia','$horaInicio:00','$horaFin:00');";
+						$insertarHorario = mysqli_query($conexion, $sql);
+					}
 				}
 				else{
-					header("location:../error.php");
+					echo "asdf";
+				}
+				
+	    	}
+	    	if(isset($_POST['registrar'])){
+		    	$randomPass = randomPassword();
+		    	$pass = hash_hmac('sha512', $randomPass, 'secret');
+		    	$sql = "INSERT INTO usuarios VALUES ('".$_POST["dni"]."', '".$_POST["nombre"]."', '".$_POST["apellidos"]."', '".$_POST["sexo"]."', '".$_POST["fecha"]."', ".$_POST["tlfno"].", '".$_POST["mail"]."', '".$_POST["user"]."', '$pass', 'matriculado');";
+				$insertarUsuario = mysqli_query($conexion, $sql);
+				if($insertarUsuario){
+					$sql = "INSERT INTO matriculados VALUES ('".$_POST["dni"]."', null, null, null);";
+					$insertarMatriculado = mysqli_query($conexion, $sql);
+					if($insertarMatriculado){
+						mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
+					}
+					else{
+						header("location:../error.php");
+					}
 				}
 			}
+		}
 			else{
 				header("location:../error.php");
 			}
 			
-	    }
-	    else{
-	    	header("location:../error.php");
-	    }
 	/*}
 	else{
 		header("location:../index.php");

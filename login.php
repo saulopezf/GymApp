@@ -98,16 +98,19 @@
       <div class="container-fluid">
       
             <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-                  <div class="align-self-center gym-login">
+                  <div class="align-self-center gym-register">
+                    <div class="row justify-content-center titulo-registro">
+                        Iniciar Sesion
+                    </div>
 
                         <form action="" method="post">
                             <div class="form-group text-center">
                                 <label>USUARIO </label>
-                                <input type="text" class="form-control" name="usuario"><span id="errorNombre"></span><br>
+                                <input type="text" class="form-control" name="usuario" required>
                             </div>
                             <div class="form-group text-center">
                                 <label>CONTRASEÑA </label>
-                                <input type="password" class="form-control" name="password"><span id="errorApe"></span><br>
+                                <input type="password" class="form-control" name="password" required>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="form-control btn btn-danger" name="login" value="Iniciar sesion">
@@ -138,7 +141,7 @@
                                           echo "<div class='alert alert-danger'>El usuario introducido no existe</div>";
                                     }
                                     else{
-                                          $sql = "SELECT dni,nombre,apellido,rol FROM usuarios
+                                          $sql = "SELECT dni,user,nombre,apellido,rol FROM usuarios
                                           WHERE user='$usuario'";
                                           $resultado = mysqli_query($conexion, $sql);
                                           $info = mysqli_fetch_assoc($resultado);
@@ -146,6 +149,7 @@
                                           $_SESSION['userData']['dni'] = $info['dni'];
                                           $_SESSION['userData']['nombre'] = $info['nombre'];
                                           $_SESSION['userData']['apellido'] = $info['apellido'];
+                                          $_SESSION['userData']['userName'] = $info['user'];
                                           if ($info['rol']=="asistente") {
                                                 $_SESSION['userData']['user']="gymAsist";
                                           }
