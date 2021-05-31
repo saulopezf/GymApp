@@ -123,32 +123,32 @@ position:absolute;
                 
     
       <div class="col-lg-6 col-md-offset-3 mt-5">
-        <div class="well well-sm">
-          <form class="form-horizontal" action="" method="post">
+        <div class="well well-sm justify-content-center">
+          <form class="form " action="" method="post">
           <fieldset>
-            <legend class="text-center">Contact us</legend>
+            <legend class="text-center">Contactanos</legend>
     
             <!-- Name input-->
             <div class="form-group">
-              <label class="col-md-3 control-label" for="name">Name</label>
+              <label class="col-md-3 control-label" for="name">Tu nombre</label>
               <div class="col-md-9">
-                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+                <input id="name" name="name" type="text" placeholder="Tu nombre" class="form-control">
               </div>
             </div>
     
             <!-- Email input-->
             <div class="form-group">
-              <label class="col-md-3 control-label" for="email">Your E-mail</label>
+              <label class="col-md-3 control-label" for="email">Tu correo electronico</label>
               <div class="col-md-9">
-                <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+                <input id="email" name="email" type="text" placeholder="Tu correo electronico" class="form-control">
               </div>
             </div>
     
             <!-- Message body -->
             <div class="form-group">
-              <label class="col-md-3 control-label" for="message">Your message</label>
+              <label class="col-md-3 control-label" for="message">Mensaje</label>
               <div class="col-md-9">
-                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                <textarea class="form-control" id="message" name="mensaje" placeholder="Por favor inserte su mensaje aqui..." rows="5"></textarea>
               </div>
             </div>
     

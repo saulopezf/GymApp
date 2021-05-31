@@ -8,6 +8,7 @@
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="css/navbar.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -95,6 +96,7 @@
     </nav>
       
     <div class="container-fluid">
+        <div class="row justify-content-center" style="height: 100vh">
         <?php
 
             $host='localhost';
@@ -109,7 +111,7 @@
 
             if(isset($_GET['idMonitor'])){
                 $idMonitor = $_GET['idMonitor'];
-                $sql = "SELECT idMonitor,dniMonitor,titulacion,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
+                $sql = "SELECT idMonitor,dniMonitor,titulacion,img,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
                     WHERE idMonitor = '$idMonitor'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
@@ -123,12 +125,12 @@
                     $clases[]=$fila;
                 }
         ?>
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-6 offset-md-2 col-md-4 image-container">
-                        <img width="100%" height="" src="img/xtrainer-2.png.pagespeed.ic.jSsfbaptsw.png">
+
+                <div class="row align-items-center mx-auto" style="width: 80%;margin-top:50px;margin-bottom: 200px;">
+                    <div class="col-md-6 image-container-monitor">
+                        <img <?php echo 'src="img/'.$monitor['img'].'"'?>>
                     </div>
-                    <div class="col-6 col-md-6 info">
+                    <div class="col-md-6 text-center text-md-left info">
                         <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
                         <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
                         <p> Clases: 
@@ -143,7 +145,7 @@
                     ?>
                       <form action="mensajes.php" method="post">
                         <?php
-                            echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-primary">Mensaje</button>';
+                            echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-danger">Mensaje</button>';
                         ?>
                       </form>
                     <?php
@@ -151,28 +153,43 @@
                     ?>
                     </div>
                 </div>
-            </div>
+
         <?php
             }
             else{
-                $sql = "SELECT idMonitor,usuarios.dni,usuarios.nombre,usuarios.apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
+                $sql = "SELECT idMonitor,img,usuarios.dni,usuarios.nombre,usuarios.apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $monitores[] = $fila;
                 }
-                echo '<div class="row" id="monitores">';
+                echo '<div class="row justify-content-md-center mx-auto" style="width: 80%;margin-top:50px;" id="monitores">';
                 foreach ($monitores as $key => $monitor) {
-                    echo '<div class="card col-12 col-md-6 col-lg-3 profesor">';
-                    echo '<div class="card-body">';
-                    echo '<h5 class="card-title">'.$monitor['nombre'].' '.$monitor['apellido'].'</h5>';
-                    echo '<p class="card-text">'.$monitor['titulacion'].'</p>';
-                    echo '<form action="" method="get">';
-                    echo '<button type="submit" name="idMonitor" value="'.$monitor['idMonitor'].'" class="btn btn-primary">Mas informacion</button>';
+                    echo '<div class="col-12 col-md-6 col-lg-3 profesor" style="margin-bottom:50px;">';
+                    echo '<div class="image-container"><img src="img/'.$monitor['img'].'"></div>';
+                    echo '<div class="name">'.$monitor['nombre'].' '.$monitor['apellido'].'</div>';
+                    echo '<div class="title">'.$monitor['titulacion'].'</div>';
+                    echo '<form class="text-center" action="" method="get">';
+                    echo '<button type="submit" name="idMonitor" value="'.$monitor['idMonitor'].'" class="btn btn-danger">Mas informacion</button>';
                     echo '</form>';
-                    echo '</div></div>';
+                    echo '</div>';
                 }
                 echo '</div>';
             }    
         ?>     
+</div>
+</div>
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -1,5 +1,28 @@
 <?php
     session_start();
+    $host='localhost';
+            $usuario_bd='root';
+            $password_bd='';
+            $nombre_bd='gimnasio';
+            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
+            if (mysqli_connect_errno()) { //(!$conexion)
+                printf("Conexión fallida: %s\n", mysqli_connect_error());
+                exit();
+            }          
+
+            $dni = $_SESSION['userData']['dni'];
+    if(isset($_POST['calcularIMC'])){
+                    $peso = intval($_POST['peso']);
+                    $altura = intval($_POST['altura']);
+                    $alturam = $altura*0.01;
+                    $imc = $peso/pow($alturam, 2);
+                    $imc = round($imc,2);
+                    $sql = "UPDATE matriculados SET peso=$peso,altura=$altura,imc=$imc WHERE dniMatriculado='$dni'";
+                    $calcularIMC = mysqli_query($conexion, $sql);
+                    if(!$calcularIMC){
+                        header("location:error.php");
+                    }
+                }
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,6 +31,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -107,60 +131,71 @@
 
     <?php
 
-            $host='localhost';
-            $usuario_bd='guest';
-            $password_bd='guest';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }          
-
-            $dni = $_SESSION['userData']['dni'];
-            $sql = "SELECT * FROM usuarios
+            
+            $sql = "SELECT peso,altura,imc FROM matriculados INNER JOIN usuarios ON dniMatriculado=dni
                     WHERE dni = '$dni'";
             $resultado = mysqli_query($conexion, $sql);
             while ($fila = mysqli_fetch_assoc($resultado)) {
-                $usuarios[] = $fila;
+                $matriculados[] = $fila;
             }
-                $usuario = $usuarios[0];
+                $matriculado = $matriculados[0];
+
+                
     ?>
 
     <div class="container-fluid">
     	
-    	<div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-            <div class="align-self-center">
-                <form action="" method="post" id="formulario">
-                	
-                	<label>Peso (kg): </label>
-                	<input type="text" name="peso" id="dniRegistro" onblur="validarElementos()" required><span id="errorDNI"></span><br>
-                	
-                	<label>Altura (cm): </label>
-                	<input type="text" name="altura" id="nombreRegistro" required><span id="errorNombre"></span><br>
-                	
-                	<input type="submit" name="login" value="Calcular IMC">
+    	<div class="row justify-content-center">
+            <div class="col-md-6 p-5">
+                <div class="row justify-content-center titulo-registro">
+                        ¿Que es el IMC?
+                    </div>
+                <p>El índice de masa corporal (IMC) es un método utilizado para estimar la cantidad de grasa corporal que tiene una persona, y determinar por tanto si el peso está dentro del rango normal, o por el contrario, se tiene sobrepeso o delgadez. Para ello, se pone en relación la estatura y el peso actual del individuo.</p>
 
+                <p>El IMC es una fórmula que se calcula dividiendo el peso, expresado siempre en Kg, entre la altura, siempre en metros al cuadrado. Una cosa importante que destaca la nutricionista es que no se pueden aplicar los mismos valores en niños y adolescentes que en adultos.</p>
+                <div>
+                    <ul>
+                        <li>0-15: muy bajo peso</li>
+                        <li>15-16: Muy bajo peso</li>
+                        <li>16-18.5: bajo peso</li>
+                        <li>18.5 - 25: Rango Normal (saludable)</li>
+                        <li>25-30: sobrepeso</li>
+                        <li>30 - 35: Clase obesa I - Obesa moderada</li>
+                        <li>35 - 40: Clase obesa II - Muy obesa</li>
+                        <li>40: obeso clase III: muy obesos</li>
+                    </ul>
+                </div>
+            </div>
+             <div class="col-md-6 p-5">
+                <div class="row justify-content-center titulo-registro">
+                        Calculadora IMC
+                    </div>
+                <form action="" method="post" id="formulario" class="mx-auto" style="width:70%">
+                	<div class="form-row">
+                        <div class="col-md-6 mb-3">
+                	<label style="color:black">Peso 30-200 (kg): </label>
+                	<input type="number" name="peso" id="peso" class="form-control" min="30" max="200" <?php echo "value = ".intval($matriculado['peso'])?>  required>
+                	</div>
+                    <div class="col-md-6 mb-3">
+                	<label style="color:black">Altura 100-250 (cm): </label>
+                	<input type="number" name="altura" id="altura" class="form-control" min="100" max="250" <?php echo "value = ".intval($matriculado['altura'])?> required>
+                	</div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <label style="color:black;font-size: 20px;">Tu IMC: <?php echo $matriculado['imc']?></label>
+                </div>
+                <div class="form-row justify-content-center">
+                	<input type="submit" name="calcularIMC" class="btn btn-danger" value="Calcular IMC">
+                </div>
                 </form>
-                <span id="errorVali"></span>
-                <?php
-                    if(isset($_POST)){
-                        $peso = $_POST['peso'];
-                        $altura = $_POST['altura']*0.01;
-                        $imc = $peso/pow($altura, 2);
-                        echo round($imc,2);
-                    }
-                ?>
+
+                
+                
+                </div>
+                
             </div>
         </div>
-0-15: muy bajo peso
-15-16: Muy bajo peso
-16-18.5: bajo peso
-18.5 - 25: Rango Normal (saludable)
-25-30: sobrepeso
-30 - 35: Clase obesa I - Obesa moderada
-35 - 40: Clase obesa II - Muy obesa
-40: obeso clase III: muy obesos
+
     </div>
 </body>
 </html>

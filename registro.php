@@ -46,7 +46,7 @@
             transform: scale(1.1);
         }
 
-        #btnClase{
+        #btnNuevaClase{
             background-image: url("img/loginbg.jpg");
         }
 
@@ -135,7 +135,7 @@
     	
     	<div class="row justify-content-center" id="botones-registro">
             <a class="btn btn-registro" id="btnMatricular" href="registrousuario.php" >Matricular</a>
-            <a class="btn btn-registro" id="btnClase" href="registroclase.php" >Nueva Clase</a>
+            <a class="btn btn-registro" id="btnNuevaClase" href="registroclase.php" >Nueva Clase</a>
         </div>
             
     </div>
