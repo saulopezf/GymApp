@@ -114,7 +114,6 @@
                                             <div class="text mt-md-5" data-aos="fade-up" data-aos-duration="1000">
                                                 <h2>Moldea tu cuerpo ideal</h2>
                                                 <p class="mb-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-                                                <p><a href="#" class="btn btn-danger px-4 py-3">MATRICULATE YA!<span class="ion ion-ios-arrow-round-forward"></span></a></p>
                                             </div>
                                         </div>
                                     </div>

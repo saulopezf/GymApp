@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    //if(!empty($_SESSION)){
+    if(!empty($_SESSION['userData'])){
 
         //$usuario=$_SESSION['rol'];
 
@@ -51,6 +51,11 @@
             }
 
         }
+    }
+    else{
+        $_SESSION['error'] = "No se ha iniciado sesion";
+        header("location:../error.php");
+    }
             
 
 ?>

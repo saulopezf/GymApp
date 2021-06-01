@@ -12,21 +12,23 @@
         exit();
     }
     $dni = $_SESSION['userData']['dni'];
-    if(isset($_POST['apuntarse'])){
-	    $idHorario = $_POST['apuntarse'];
-	    $sql = "INSERT INTO `apuntados` (`dniMatriculado`, `idHorario`) VALUES ('$dni', '$idHorario');";
-	    $sentencia = mysqli_query($conexion, $sql);
-    }
-    if(isset($_POST['desapuntarse'])){
-    	$idHorario = $_POST['desapuntarse'];
-	    $sql = "DELETE FROM apuntados WHERE apuntados.dniMatriculado = '$dni' AND apuntados.idHorario = $idHorario";
-	    $sentencia = mysqli_query($conexion, $sql);
-    }
-    if(!$sentencia){
-		header("location:../error.php");
-	}
-	else{
-		header("location:../calendario.php");
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+	    if(isset($_POST['apuntarse'])){
+		    $idHorario = $_POST['apuntarse'];
+		    $sql = "INSERT INTO `apuntados` (`dniMatriculado`, `idHorario`) VALUES ('$dni', '$idHorario');";
+		    $sentencia = mysqli_query($conexion, $sql);
+	    }
+	    if(isset($_POST['desapuntarse'])){
+	    	$idHorario = $_POST['desapuntarse'];
+		    $sql = "DELETE FROM apuntados WHERE apuntados.dniMatriculado = '$dni' AND apuntados.idHorario = $idHorario";
+		    $sentencia = mysqli_query($conexion, $sql);
+	    }
+	    if(!$sentencia){
+			header("location:../error.php");
+		}
+		else{
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+		}
 	}
     
     

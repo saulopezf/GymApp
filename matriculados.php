@@ -19,6 +19,21 @@
         
         td,th{
           border: 1px solid black;
+          font-style: italic;
+        }
+
+        td{
+            font-weight: 700;
+        }
+
+        td button{
+            position: relative;
+            bottom: 0;
+        }
+
+        thead{
+            background:#030513;
+            color: white;
         }
       </style>
 </head>
@@ -102,7 +117,8 @@
         </div>
     </nav>
       
-      <div class="container-fluid" id="monitores">
+      <div class="container-fluid text-center">
+        <div class="d-flex justify-content-center p-5">
         <?php
 
             $host='localhost';
@@ -115,26 +131,35 @@
                 exit();
             }          
 
-            if(isset($_GET['idMonitor'])){
-                $idMonitor = $_GET['idMonitor'];
-                $sql = "SELECT idMonitor,dniMonitor,titulacion,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
-                    WHERE idMonitor = '$idMonitor'";
+            if(isset($_GET['dniMatriculado'])){
+                $dniMatriculado = $_GET['dniMatriculado'];
+                $sql = "SELECT dniMatriculado,peso,altura,imc,usuarios.nombre,usuarios.apellido FROM matriculados INNER JOIN usuarios ON usuarios.dni=matriculados.dniMatriculado
+                    WHERE dniMatriculado = '$dniMatriculado'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
-                    $monitores[] = $fila;
+                    $matriculados[] = $fila;
                 }
-                $monitor = $monitores[0];
+                $matriculado = $matriculados[0];
         ?>
-            <div class="container-fluid">
-                  <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
-                  <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
-                  <p> Clases: </p>
-                  <form action="mensajes.php" method="post">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Peso (kg)</th>
+                    <th scope="col">Altura (cm)</th>
+                    <th scope="col">IMC</th>
+                </thead>
+                <tr scope="row">
                     <?php
-                        echo '<button type="submit" name="idMonitor" value="'.$monitor['idMonitor'].'" class="btn btn-primary">asdf</button>';
+                        echo "<td>".$matriculado['dniMatriculado']."</td>";
+                        echo "<td>".$matriculado['nombre']." ".$matriculado['apellido']."</td>";
+                        echo "<td>".$matriculado['peso']."</td>";
+                        echo "<td>".$matriculado['altura']."</td>";
+                        echo "<td>".$matriculado['imc']."</td>";
                     ?>
-                  </form>
-            </div>
+                    
+                </tr>
+            </table>
         <?php
             }
             else{
@@ -145,21 +170,28 @@
                     $matriculados[] = $fila;
                 } 
 
-                echo '<table><tr><th>DNI</th><th>Nombre</th><th>Apellido</th><th>Sexo</th><th>Fecha de Nacimiento</th><th>Telefono</th><th>Correo electronico</th><th>Contactar</th></tr>';
+                echo '<table class="table table-striped table-dark"><thead><th scope="col">DNI</th><th scope="col">Nombre</th><th scope="col">Apellido</th><th scope="col">Sexo</th><th scope="col">Fecha de Nacimiento</th><th scope="col">Telefono</th><th scope="col">Correo electronico</th><th scope="col">Datos fisicos</th><th scope="col">Contactar</th></thead>';
                 foreach ($matriculados as $key => $matriculado) {
-                    echo '<tr>';
+                    echo '<tr scope="row">';
                     foreach ($matriculado as $key => $valor) {
                         echo '<td>'.$valor.'</td>';
                     }
                     echo '<td>';
-                    echo '<form action="mensajes.php" method="post">';
-                    echo '<button type="submit" name="dni" value="'.$matriculado['dni'].'" class="btn btn-primary">Mensaje</button>';
+                    echo '<form action="" method="get">';
+                    echo '<button type="submit" name="dniMatriculado" value="'.$matriculado['dni'].'" class="btn btn-danger">Mas info</button>';
                     echo '</form>';
-                    echo '</tr>';
+                    echo '</td>';
+                    echo '<td>';
+                    echo '<form action="mensajes.php" method="post">';
+                    echo '<button type="submit" name="dni" value="'.$matriculado['dni'].'" class="btn btn-danger">Mensaje</button>';
+                    echo '</form>';
+                    echo '</td></tr>';
                 }
                 echo '</table>';
             }    
-        ?>     
+        ?>  
+        </div>
+        </div>   
 </body>
 </html>
 <?php

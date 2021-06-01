@@ -173,7 +173,7 @@
                     foreach ($clases as $indice => $clase) {
                         $d=strtotime($clase['horaInicio']);
                         if(date("H",$d)==$horaInicio&&$clase['dia']==$diasSemana[$i]){
-                            echo strtoupper($clase['nombre']);
+                            echo "<a style='text-decoration: none;color:white;' href='clases.php?idClase=".$clase['idClase']."'>".strtoupper($clase['nombre'])."</a>";
                             if(isset($_SESSION['userData'])){
                                 if($_SESSION['userData']['user']=="gymMatriculado"){
                                     $estaApuntado = false;

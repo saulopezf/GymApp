@@ -11,7 +11,7 @@
     }  
     if(isset($_GET['idClase'])){
         $idClase = $_GET['idClase'];
-        $sql = "SELECT clases.idClase,clases.nombre as nombreClase,idMonitor,usuarios.dni,usuarios.nombre,usuarios.apellido FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
+        $sql = "SELECT clases.idClase,clases.nombre as nombreClase,idMonitor,monitores.dniMonitor,usuarios.dni,usuarios.nombre,usuarios.apellido FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
             WHERE idClase = '$idClase'";
         $resultado = mysqli_query($conexion, $sql);
         while ($fila = mysqli_fetch_assoc($resultado)) {
@@ -26,17 +26,19 @@
         while ($fila = mysqli_fetch_assoc($resultado)) {
 /*horarios*/            $horarios[] = $fila;
         }
-        if($_SESSION['userData']['user']=="gymMatriculado"){
-                    $dniMatriculado = $_SESSION['userData']['dni'];
-                    $sql2 = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase INNER JOIN apuntados ON apuntados.idHorario=horarios.id
-                        WHERE dniMatriculado='$dniMatriculado'
-                        ORDER BY dia ASC";
-                    $resultado2 = mysqli_query($conexion, $sql2);
-                    $clasesApuntadas = [];
-                    while ($fila = mysqli_fetch_assoc($resultado2)) {
-                        $clasesApuntadas[] = $fila;
-                    }
+        if(isset($_SESSION['userData'])){
+            if($_SESSION['userData']['user']=="gymMatriculado"){
+                $dniMatriculado = $_SESSION['userData']['dni'];
+                $sql2 = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase INNER JOIN apuntados ON apuntados.idHorario=horarios.id
+                    WHERE dniMatriculado='$dniMatriculado'
+                    ORDER BY dia ASC";
+                $resultado2 = mysqli_query($conexion, $sql2);
+                $clasesApuntadas = [];
+                while ($fila = mysqli_fetch_assoc($resultado2)) {
+                    $clasesApuntadas[] = $fila;
                 }
+            }
+        }
     }     
 ?>
 <!DOCTYPE html>
@@ -53,28 +55,23 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> 
     <script src="js/validation.js"></script>
     <style type="text/css">
-        .btn-registro{
-            
-            line-height: 500px;
-            font-size: 30px !important;
+        .btn-clase{
+            width: 300px;
+            height: 300px;
+            font-size: 25px !important;
             font-weight: 1000 !important;
-            font-style: italic;
             color: #e1193e !important;
             text-transform: uppercase;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             transition: transform .2s;
-            -webkit-text-stroke: 2px black;
-
+            -webkit-text-stroke: 1px black;
         }
-.btn-registro:hover{
+.btn-clase:hover{
             transform: scale(1.1);
         }
 
-        #btnClase{
-            
-        }
     </style>
 </head>
 <body>
@@ -182,14 +179,64 @@
         <div class="row g-md-0 justify-content-center my-5 py-5">
         <div class="col-md-5 d-flex align-items-center">
             <div class="services text-center self-align-center" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-                <div class="text">
-                    <h2>Monitor:<br> <?php echo  $clase['nombre']." ".$clase['apellido'];?></h2>
-                    <form action="monitores.php" method="get">
+                <?php
+                if(isset($_SESSION['userData'])){
+                    if($clase['dniMonitor']==$_SESSION['userData']['dni']){
+                        $dniMonitor = $_SESSION['userData']['dni'];
+                        $idClase = $_GET['idClase'];
+                        $sql = "SELECT usuarios.dni,usuarios.nombre,usuarios.apellido,horarios.dia,horarios.horaInicio,horarios.horaFin,usuarios.dni FROM apuntados INNER JOIN horarios ON horarios.id=apuntados.idHorario INNER JOIN matriculados ON matriculados.dniMatriculado=apuntados.dniMatriculado INNER JOIN clases ON clases.idClase=horarios.idClase INNER JOIN usuarios ON usuarios.dni=matriculados.dniMatriculado
+                            WHERE clases.dniMonitor='$dniMonitor' AND clases.idClase=$idClase;";
+                        $resultado = mysqli_query($conexion, $sql);
+                        $alumnos = [];
+                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                            $alumnos[] = $fila;
+                        }
+                        echo "<h1>Sus alumnos: </h1>";
+                        echo "<table class='table table-striped table-dark'><thead><th scope='col'>DNI</th><th scope='col'>Nombre</th><th scope='col'>Dia</th><th scope='col'>Hora Inicio</th><th scope='col'>Hora Fin</th></thead>";
+                        foreach ($alumnos as $indice => $alumno) {
+                            echo "<tr scope='row'>";
+                            foreach ($alumno as $indice => $valor) {
+                                if($indice=="nombre"){
+                                    echo "<td>$valor ";
+                                }
+                                elseif ($indice=="apellido") {
+                                    echo "$valor</td>";
+                                }
+                                else{
+                                    echo "<td>$valor</td>";
+                                } 
+                            }
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                    }
+                    else{
+                ?>
+                    <div>
+                        <h2>Monitor:<br> <?php echo  $clase['nombre']." ".$clase['apellido'];?></h2>
+                        <form action="monitores.php" method="get">
                             <?php
-                                echo '<button type="submit" name="idMonitor" value="'.$clase['idMonitor'].'" class="btn btn-danger">Ir al monitor</button>';
+                            echo '<button type="submit" name="idMonitor" value="'.$clase['idMonitor'].'" class="btn btn-danger">Ir al monitor</button>';
                             ?>
                         </form>
-                </div>
+                    </div>
+                <?php
+                    }
+                }
+                else{
+                    ?>
+                    <div>
+                        <h2>Monitor:<br> <?php echo  $clase['nombre']." ".$clase['apellido'];?></h2>
+                        <form action="monitores.php" method="get">
+                            <?php
+                            echo '<button type="submit" name="idMonitor" value="'.$clase['idMonitor'].'" class="btn btn-danger">Ir al monitor</button>';
+                            ?>
+                        </form>
+                    </div>
+                    <?php
+                }
+
+                ?>
             </div>
         </div>
             <div class="col-md-5 d-flex">
@@ -240,9 +287,9 @@
                 }  
                 echo '<div class="row">';
                 foreach ($clases as $key => $clase) {
-                    echo '<div class="col-md-3">';
+                    echo '<div class="col-12 col-xl-3 col-lg-4 col-sm-6 text-center my-5 pb-5">';
                     echo '<form action="" method="get">';
-                    echo '<button type="submit" name="idClase" class="btn btn-registro self-align-center" style="background-image: url(\'img/loginbg.jpg\');" value="'.$clase['idClase'].'">'.$clase['nombre'].'</button>';
+                    echo '<button type="submit" name="idClase" class="btn btn-clase self-align-center" style="background-image: url(\'img/loginbg.jpg\');" value="'.$clase['idClase'].'">'.$clase['nombre'].'</button>';
                     echo '</form>';
                     echo '</div>';
                 }
@@ -255,7 +302,7 @@
         <div class="container-xl">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
                         Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
                     </p>
                 </div>
