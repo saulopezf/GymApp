@@ -48,3 +48,7 @@ function mostrarMonitores(monitores){
     }
 }
 
+function escribirFooter(){
+    document.getElementById('textoFooter').innerHTML = "Copyright &copy; "+new Date().getFullYear()+" Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez";
+}
+

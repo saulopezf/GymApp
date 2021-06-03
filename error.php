@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['error'])){
+session_start();
+if(isset($_SESSION['error'])){
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,14 +16,21 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    
     <div class="container-fluid">
         <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-            <h1>¡Ha ocurrido un error!</h1>
-            <p><?php echo $_SESSION['error'] ?></p>
+            <div class="align-self-center gym-register">
+                    <div class="row text-center justify-content-center titulo-registro">
+                        ¡Ha ocurrido un error!
+                    </div>
+                    <div class="text-center" style="color:white;">
+                        <p><?php echo "\"".$_SESSION['error']."\"" ?></p>
+                        <a class="btn btn-danger" href="index.php">Volver al inicio</a>
+                    </div>
+                        
+                        
+            </div>
         </div>
     </div>
-
 </body>
 </html>
 <?php
@@ -31,5 +38,4 @@
 else{
     header("location:index.php");
 }
-
 ?>

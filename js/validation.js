@@ -12,6 +12,9 @@ var usuCorrecto=false;
 var passCorrecto=false;
 var monitorCorrecto=false;
 var passValidado=false;
+var horarioCorrecto=true;
+
+var horarios;
 
 function updateTlfno(){
 	validarTlfno(document.getElementById('tlfnoRegistro').value,document.getElementById('tlfnoRegistro'));
@@ -48,6 +51,26 @@ function updatePass(){
 	
 }
 
+function updateMonitor(){
+	validarMonitor(document.getElementById('monitorClase').value,document.getElementById('monitorClase'));
+	if(monitorCorrecto){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+function updateHora(){
+	validarHorarios(document.getElementById('dia').value,document.getElementById('dia'),document.getElementById('horario').value,document.getElementById('horario'));
+	if(horarioCorrecto){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 
 
 function validarFormulario(){
@@ -66,12 +89,54 @@ function validarFormulario(){
 function validarNuevaClase(){
 	validarNombre(document.getElementById('nombreClase').value,document.getElementById('nombreClase'));
 	validarMonitor(document.getElementById('monitorClase').value,document.getElementById('monitorClase'));
-	if(nombreCorrecto&&monitorCorrecto){
+	var i=0;
+	do{
+		validarHorarios(document.getElementById('diasSemana'+i).value,document.getElementById('diasSemana'+i),document.getElementById('horario'+i).value,document.getElementById('horario'+i));
+		i++;
+	}while(i<horario&&horarioCorrecto);
+	console.log(nombreCorrecto+""+monitorCorrecto+""+horarioCorrecto);
+	if(nombreCorrecto&&monitorCorrecto&&horarioCorrecto){
 		return true;
 	}
 	else{
-		document.getElementById('errorVali').innerHTML="<div class='alert alert-danger text-center'>Por favor, rellene los campos incorrectos o vacios</div>";
 		return false;	
+	}
+}
+
+function getHorarios(){
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    	if (this.readyState == 4 && this.status == 200) {
+            horarios = JSON.parse(xhttp.responseText);
+        }
+    };
+    xhttp.open("POST", "php/consultas.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("consulta=horarios");
+}
+
+function validarHorarios(dia,diaId,horaInicio,horaInicioId){
+	var contadorMal = 0;
+	for(var indice in horarios){
+		horaInicioParse = (horarios[indice]['horaInicio']).slice(0,3);
+		if(horaInicioParse.charAt(0)=="0"){
+			horaInicioParse = horaInicioParse.slice(1);
+		}
+		if(dia == horarios[indice]['dia']&&horaInicio==parseInt(horaInicioParse)){
+			contadorMal++;
+		}
+	}
+	if(contadorMal==0){
+		esValido(diaId);
+		esValido(horaInicioId);
+		document.getElementById('errorVali').innerHTML="";
+		horarioCorrecto=true;
+	}
+	else{
+		document.getElementById('errorVali').innerHTML="<div class='alert alert-danger text-center'>Este horario ya esta cogido</div>";
+		noEsValido(diaId);
+		noEsValido(horaInicioId);
+		horarioCorrecto=false;
 	}
 }
 

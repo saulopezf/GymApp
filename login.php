@@ -1,6 +1,7 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['userData'])){
+include "php/conexion.php";
+session_start();
+if(!isset($_SESSION['userData'])){
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,6 +15,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+      <script src="js/ScriptsGym.js"></script>
 </head>
 <body>
 
@@ -95,81 +97,88 @@
         </div>
     </nav>
       
-      <div class="container-fluid">
-      
-            <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
-                  <div class="align-self-center gym-register">
-                    <div class="row justify-content-center titulo-registro">
-                        Iniciar Sesion
+    <div class="container-fluid">
+        <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
+            <div class="align-self-center gym-register">
+                <div class="row justify-content-center titulo-registro">
+                    Iniciar Sesion
+                </div>
+
+                <form action="" method="post">
+                    <div class="form-group text-center">
+                        <label>USUARIO </label>
+                        <input type="text" class="form-control" name="usuario" required>
                     </div>
+                    <div class="form-group text-center">
+                        <label>CONTRASEÑA </label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control btn btn-danger" name="login" value="Iniciar sesion">
+                    </div>
+                </form>
 
-                        <form action="" method="post">
-                            <div class="form-group text-center">
-                                <label>USUARIO </label>
-                                <input type="text" class="form-control" name="usuario" required>
-                            </div>
-                            <div class="form-group text-center">
-                                <label>CONTRASEÑA </label>
-                                <input type="password" class="form-control" name="password" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" class="form-control btn btn-danger" name="login" value="Iniciar sesion">
-                            </div>
-                        </form>
-                        
-                        <?php
-                              if($_SERVER["REQUEST_METHOD"] == "POST"){
-                                    if($_POST['login']){
+            <?php
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                if($_POST['login']){
+                    $conexion = conexion();
 
-                                    $host='localhost';
-                                    $usuario_bd='guest';
-                                    $password_bd='guest';
-                                    $nombre_bd='gimnasio';
-                                    $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
+                    $usuario = $_POST['usuario'];
+                    $sql = "SELECT * FROM usuarios
+                    WHERE user='$usuario'";
+                    $resultado = mysqli_query($conexion, $sql);
 
+                    if(mysqli_num_rows($resultado)==0){
+                        echo "<div class='alert alert-danger text-center'>El usuario introducido no existe</div>";
+                    }
+                    else{
+                        $pass_code = hash_hmac('sha512', $_POST['password'], 'secret');
+                        $sql = "SELECT * FROM usuarios
+                                WHERE user='$usuario' AND pass='$pass_code'";
+                        $resultado = mysqli_query($conexion, $sql);
+                        if(mysqli_num_rows($resultado)==0){
+                            echo "<div class='alert alert-danger text-center'>Ha introducido mal la contraseña</div>";
+                        }
+                        else{
+                            $sql = "SELECT dni,user,nombre,apellido,rol FROM usuarios
+                                    WHERE user='$usuario'";
+                            $resultado = mysqli_query($conexion, $sql);
+                            $info = mysqli_fetch_assoc($resultado);
 
-                                    $usuario=$_POST['usuario'];
-                                    $password=$_POST['password'];
-
-                                    $pass_code=hash_hmac('sha512', $_POST['password'], 'secret');
-
-                                    $sql = "SELECT * FROM usuarios
-                                    WHERE user='$usuario' AND pass='$pass_code'";
-                                    $resultado = mysqli_query($conexion, $sql);
-
-                                    if(mysqli_num_rows($resultado)==0){
-                                          echo "<div class='alert alert-danger'>El usuario introducido no existe</div>";
-                                    }
-                                    else{
-                                          $sql = "SELECT dni,user,nombre,apellido,rol FROM usuarios
-                                          WHERE user='$usuario'";
-                                          $resultado = mysqli_query($conexion, $sql);
-                                          $info = mysqli_fetch_assoc($resultado);
-                                          $_SESSION['userData'] = [];
-                                          $_SESSION['userData']['dni'] = $info['dni'];
-                                          $_SESSION['userData']['nombre'] = $info['nombre'];
-                                          $_SESSION['userData']['apellido'] = $info['apellido'];
-                                          $_SESSION['userData']['userName'] = $info['user'];
-                                          if ($info['rol']=="asistente") {
-                                                $_SESSION['userData']['user']="gymAsist";
-                                          }
-                                          elseif ($info['rol']=="monitor") {
-                                                $_SESSION['userData']['user']="gymMonitor";
-                                          }
-                                          elseif ($info['rol']=="matriculado") {
-                                                $_SESSION['userData']['user']="gymMatriculado";        
-                                          }
-                                        header("location:index.php");    
-                                    }
-                                }
-                            }     
-                              
-                        ?>
-                        
-                  </div>
+                            $_SESSION['userData'] = [];
+                            $_SESSION['userData']['dni'] = $info['dni'];
+                            $_SESSION['userData']['nombre'] = $info['nombre'];
+                            $_SESSION['userData']['apellido'] = $info['apellido'];
+                            $_SESSION['userData']['userName'] = $info['user'];
+                            if ($info['rol']=="asistente") {
+                                $_SESSION['userData']['user']="gymAsist";
+                            }
+                            elseif ($info['rol']=="monitor") {
+                                $_SESSION['userData']['user']="gymMonitor";
+                            }
+                            elseif ($info['rol']=="matriculado") {
+                                $_SESSION['userData']['user']="gymMatriculado";        
+                            }
+                            header("location:index.php");   
+                        } 
+                    }
+                }
+            }     
+            ?>
             </div>
-
-      </div>   
+        </div>
+    </div>   
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
 <?php

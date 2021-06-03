@@ -1,5 +1,6 @@
 <?php
-      session_start();
+    include "php/conexion.php";
+    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -97,35 +98,24 @@
       
     <div class="container-fluid">
         <div class="row justify-content-center" style="height: 100vh">
-        <?php
-
-            $host='localhost';
-            $usuario_bd='guest';
-            $password_bd='guest';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }          
-
+            <?php
+            $conexion=conexion();      
             if(isset($_GET['idMonitor'])){
                 $idMonitor = $_GET['idMonitor'];
                 $sql = "SELECT idMonitor,dniMonitor,titulacion,img,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
-                    WHERE idMonitor = '$idMonitor'";
+                WHERE idMonitor = '$idMonitor'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $monitores[] = $fila;
                 }
                 $monitor = $monitores[0];
                 $sql = "SELECT idClase,nombre FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor
-                        WHERE idMonitor='$idMonitor'";
+                WHERE idMonitor='$idMonitor'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $clases[]=$fila;
                 }
-        ?>
-
+                ?>
                 <div class="row align-items-center mx-auto" style="width: 80%;margin-top:50px;margin-bottom: 200px;">
                     <div class="col-md-6 image-container-monitor">
                         <img <?php echo 'src="img/'.$monitor['img'].'"'?>>
@@ -134,27 +124,26 @@
                         <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
                         <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
                         <p> Clases: 
-                        <?php
+                            <?php
                             foreach ($clases as $key => $clase) {
                                 echo "<a href='clases.php?idClase=".$clase['idClase']."'>".$clase['nombre']."</a>";
                             }
-                        ?>
+                            ?>
                         </p>
-                    <?php
-                        if(isset($_SESSION['userData'])){
-                    ?>
-                      <form action="mensajes.php" method="post">
                         <?php
-                            echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-danger">Mensaje</button>';
-                        ?>
-                      </form>
-                    <?php
+                        if(isset($_SESSION['userData'])){
+                            ?>
+                            <form action="mensajes.php" method="post">
+                                <?php
+                                echo '<button type="submit" name="dni" value="'.$monitor['dniMonitor'].'" class="btn btn-danger">Mensaje</button>';
+                                ?>
+                            </form>
+                            <?php
                         }
-                    ?>
+                        ?>
                     </div>
                 </div>
-
-        <?php
+                <?php
             }
             else{
                 $sql = "SELECT idMonitor,img,usuarios.dni,usuarios.nombre,usuarios.apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
@@ -175,18 +164,16 @@
                 }
                 echo '</div>';
             }    
-        ?>     
-</div>
-</div>
+            ?>     
+        </div>
+    </div>
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">
         <div class="container-xl">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
-                    </p>
-                </div>
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
             </div>
         </div>
     </div>

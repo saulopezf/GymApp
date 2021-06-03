@@ -19,37 +19,6 @@
         body{
             background-image: url("img/xbg_5.jpg.pagespeed.ic.AP6oI9aFte.png");
         }
-
-        .btn-registro{
-            width: 500px;
-            height: 500px;
-            line-height: 500px;
-            font-size: 30px;
-            font-weight: 1000;
-            font-style: italic;
-            color: #e1193e !important;
-            text-transform: uppercase;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            transition: transform .2s;
-            -webkit-text-stroke: 2px black;
-
-        }
-
-        #btnMatricular{
-            background-image: url("img/xbg_2.jpg.pagespeed.ic.00rxxJ64yj (1).png");
-
-        }
-
-        .btn-registro:hover{
-            transform: scale(1.1);
-        }
-
-        #btnNuevaClase{
-            background-image: url("img/loginbg.jpg");
-        }
-
     </style>
 </head>
 <body>
@@ -132,23 +101,19 @@
     </nav>
 
     <div class="container-fluid" style="padding-top: 7%;padding-bottom: 15%;">
-    	
     	<div class="row justify-content-center" id="botones-registro">
             <a class="btn btn-registro" id="btnMatricular" href="registrousuario.php" >Matricular</a>
             <a class="btn btn-registro" id="btnNuevaClase" href="registroclase.php" >Nueva Clase</a>
-        </div>
-            
+        </div>  
     </div>
 
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">
         <div class="container-xl">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
-                    </p>
-                </div>
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
             </div>
         </div>
     </div>

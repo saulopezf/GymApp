@@ -1,4 +1,6 @@
 <?php
+	include "conexion.php";
+	session_start();
 
 	function randomPassword() {
 	    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
@@ -11,23 +13,13 @@
 	    return implode($pass); //turn the array into a string
 	}
 
-	//if(!empty($_SESSION)){
+	if(!empty($_SESSION)){
 
-		//$usuario=$_SESSION['rol'];
-
-		$host='localhost';
-		$usuario_bd='root';
-		$password_bd='';
-		$nombre_bd='gimnasio';
-		$conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-		if (mysqli_connect_errno()) { //(!$conexion)
-	        printf("Conexión fallida: %s\n", mysqli_connect_error());
-	        exit();
-	    }
+		$conexion=conexion();
 
 	    if($_SERVER["REQUEST_METHOD"] == "POST"){
 	    	if(isset($_POST['nuevaClase'])){
-	    		$sql = "INSERT INTO clases VALUES (null,'".$_POST['monitorClase']."','".$_POST['nombreClase']."');";
+	    		$sql = "INSERT INTO clases VALUES (null,'".$_POST['monitorClase']."','".$_POST['nombreClase']."','".$_POST['imgClase']."');";
 				$insertarClase = mysqli_query($conexion, $sql);
 
 				if($insertarClase){
@@ -35,19 +27,23 @@
 					$resultado = mysqli_query($conexion, $sql);
 					$claseInsertada = mysqli_fetch_assoc($resultado);
 
-					$horarios = (count($_POST) - 3)/2;
+					$horarios = (count($_POST) - 4)/2;
 					for ($i=0; $i < $horarios; $i++) { 
 						$dia = $_POST["diasSemana".$i];
                         $horaInicio = $_POST["horario".$i];
                         $horaFin = $horaInicio+1;
 						$sql = "INSERT INTO horarios VALUES (null,'".$claseInsertada['idClase']."','$dia','$horaInicio:00','$horaFin:00');";
 						$insertarHorario = mysqli_query($conexion, $sql);
+						if(!$insertarHorario){
+							$_SESSION['error']="No se ha podido insertar un horario, por favor, contacte con su administrador.";
+							header("location:../error.php");
+						}
 					}
 				}
 				else{
-					echo "asdf";
+					$_SESSION['error']="No se ha podido realizar el registro correctamente, intentelo de nuevo mas tarde.";
+					header("location:../error.php");
 				}
-				
 	    	}
 	    	if(isset($_POST['registrar'])){
 		    	$randomPass = randomPassword();
@@ -61,18 +57,19 @@
 						mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
 					}
 					else{
+						$_SESSION['error']="No se ha podido realizar el registro correctamente, intentelo de nuevo mas tarde.";
 						header("location:../error.php");
 					}
 				}
 			}
 		}
-			else{
-				header("location:../error.php");
-			}
-			
-	/*}
+		else{
+			$_SESSION['error']="No se ha recibido informacion para realizar el registro.";
+			header("location:../error.php");
+		}
+	}
 	else{
 		header("location:../index.php");
-	}*/
+	}
 
 ?>

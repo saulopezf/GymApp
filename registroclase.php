@@ -16,7 +16,7 @@
     <script src="js/validation.js"></script>
     <script src="js/ScriptsGym.js"></script>
 </head>
-<body>
+<body onload="getHorarios();">
 
     <nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
         <div class="container-xl">
@@ -124,6 +124,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label>Imagen clase</label>
+                            <input type="text" name="imgClase" id="imgClase" class="form-control" required>
+                        </div>
+                    </div>
                     <div id="containerHorario">
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
@@ -147,7 +153,7 @@
                     <div class="form-row justify-content-center">
                         <button type="button" class="btn btn-success" id="nuevoHorario" onclick="formHorario()">Nuevo horario</button>
                     </div>
-                    <div class="form-row justify-content-center" id="errorVali"></div>
+                    <div class="form-row justify-content-center mt-3" id="errorVali"></div>
                     <div class="form-row justify-content-center mt-3">
                         <input type="submit" name="nuevaClase" class="w-100 btn btn-danger" value="AÑADIR NUEVA CLASE">
                     </div>

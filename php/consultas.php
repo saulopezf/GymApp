@@ -59,6 +59,9 @@
                 exit(true);
             }
             break;
+        case "horarios":
+            $sql = "SELECT dia,horaInicio,horaFin FROM horarios";
+            break;
     }
 
     $resultado_sql=mysqli_query($conexion,$sql);

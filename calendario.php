@@ -1,5 +1,6 @@
 <?php
-      session_start();
+    include "php/conexion.php";
+    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,29 +16,8 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
       <script src="js/ScriptsGym.js"></script>
       <style type="text/css">
-
-        body{
-            /*background-image: url("img/xbg_5.jpg.pagespeed.ic.AP6oI9aFte.png");*/
-        }
         
-        td,th{
-          border: 1px solid black;
-          font-style: italic;
-        }
-
-        td{
-            font-weight: 700;
-        }
-
-        td button{
-            position: relative;
-            bottom: 0;
-        }
-
-        thead{
-            background:#030513;
-            color: white;
-        }
+        
       </style>
 </head>
 <body>
@@ -120,32 +100,24 @@
         </div>
     </nav>
       
-      <div class="container-fluid text-center">
-        <div class="d-flex justify-content-center p-5">
-        <?php
-            $host='localhost';
-            $usuario_bd='guest';
-            $password_bd='guest';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }
+    <div class="container-fluid text-center">
+        <div class="row d-flex justify-content-center p-5">
+            <?php
+            $conexion=conexion();
             $sql = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
-                  ORDER BY dia ASC";
+                ORDER BY dia ASC";
             if(isset($_SESSION['userData'])){
                 if($_SESSION['userData']['user']=="gymMonitor"){
                     $dniMonitor = $_SESSION['userData']['dni'];
                     $sql = "SELECT clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase
-                            WHERE clases.dniMonitor='$dniMonitor'
-                            ORDER BY dia ASC";
+                    WHERE clases.dniMonitor='$dniMonitor'
+                    ORDER BY dia ASC";
                 }
                 if($_SESSION['userData']['user']=="gymMatriculado"){
                     $dniMatriculado = $_SESSION['userData']['dni'];
                     $sql2 = "SELECT horarios.id AS idHorario,clases.idClase,nombre,dia,horaInicio,horaFin FROM horarios INNER JOIN clases ON horarios.idClase=clases.idClase INNER JOIN apuntados ON apuntados.idHorario=horarios.id
-                        WHERE dniMatriculado='$dniMatriculado'
-                        ORDER BY dia ASC";
+                    WHERE dniMatriculado='$dniMatriculado'
+                    ORDER BY dia ASC";
                     $resultado2 = mysqli_query($conexion, $sql2);
                     $clasesApuntadas = [];
                     while ($fila = mysqli_fetch_assoc($resultado2)) {
@@ -163,7 +135,7 @@
             $horaFin = 9;
             echo "<table class='table table-striped table-dark'><thead><th scope='col'></th>";
             for ($j=0; $j < count($diasSemana); $j++) { 
-              echo "<th scope='col'>".strtoupper($diasSemana[$j])."</th>";
+                echo "<th scope='col'>".strtoupper($diasSemana[$j])."</th>";
             }
             echo "</thead>";
             while ($horaInicio<22) { 
@@ -173,7 +145,7 @@
                     foreach ($clases as $indice => $clase) {
                         $d=strtotime($clase['horaInicio']);
                         if(date("H",$d)==$horaInicio&&$clase['dia']==$diasSemana[$i]){
-                            echo "<a style='text-decoration: none;color:white;' href='clases.php?idClase=".$clase['idClase']."'>".strtoupper($clase['nombre'])."</a>";
+                            echo "<a class='link-clases' style='' href='clases.php?idClase=".$clase['idClase']."'>".strtoupper($clase['nombre'])."</a>";
                             if(isset($_SESSION['userData'])){
                                 if($_SESSION['userData']['user']=="gymMatriculado"){
                                     $estaApuntado = false;
@@ -183,12 +155,11 @@
                                         }
                                     }
                                     if($estaApuntado){
-                                        echo "<br><button value='".$clase['idHorario']."' class='btn btn-success'>Apuntado</button><form action='php/apuntarse.php' method='post'><button type='submit' name='desapuntarse' value='".$clase['idHorario']."' class='btn btn-danger'>X</button></form>";
+                                        echo "<form action='php/apuntarse.php' method='post'><a class='btn btn-success'>Apuntado</a><button type='submit' name='desapuntarse' value='".$clase['idHorario']."' class='btn btn-danger'>X</button></form>";
                                     }
                                     else{
                                         echo "<br><form action='php/apuntarse.php' method='post'><button type='submit' name='apuntarse' value='".$clase['idHorario']."' class='btn btn-danger'>Apuntarse</button></form>";
                                     }
-                          //INSERT INTO `apuntados` (`dniMatriculado`, `idHorario`) VALUES ('11111111T', '2');
                                 }
                             }
                         }
@@ -198,26 +169,22 @@
                 echo "</tr>";
                 $horaInicio++;
                 $horaFin++;
-            }   
-        ?>
-        </table>
+                }   
+            ?>
+            </table>
         </div>
-      </div>
+    </div>
 
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">
         <div class="container-xl">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
-                    </p>
-                </div>
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
             </div>
         </div>
     </div>
 </footer>
-
-
 </body>
 </html>

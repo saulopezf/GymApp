@@ -13,22 +13,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-      <style type="text/css">
-          
-        .map-container{
-overflow:hidden;
-padding-bottom:56.25%;
-position:relative;
-height:0;
-}
-.map-container iframe{
-left:0;
-top:0;
-height:100%;
-width:100%;
-position:absolute;
-}
-      </style>
 </head>
 <body>
 
@@ -110,70 +94,64 @@ position:absolute;
         </div>
     </nav>
       
-    <div class="container-fluid pb-5 mb-5">
-                <div class="row">
-                    <div class="col-lg-6 z-depth-1-half">
-                        <h2>Nuestros gimnasios</h2>
-<div id="map-container-google-1" class=" map-container " style="height: 500px">
+    <div class="container-fluid pb-5" style="margin-bottom: 90px;">
+        <div class="row">
+            <div class="col-lg-6 col-md-offset-3 mt-5 text-center">
+                <h2 class="titulo">Nuestros gimnasios</h2>
+                <div id="map-container-google-1" class=" map-container " style="height: 500px">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23130.85373283083!2d-5.935529970629762!3d43.557449614216765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd369b638b853ca1%3A0x2f8943a218606643!2sAvil%C3%A9s%2C%20Asturias!5e0!3m2!1ses!2ses!4v1622752123279!5m2!1ses!2ses" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
-  <iframe src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0" allowfullscreen></iframe>
-</div>
-</div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-offset-3 mt-5">
+                <div class="well well-sm justify-content-center">
+                  <form class="form" action="" method="post">
+                      <fieldset>
+                        <div class="text-center">
+                            <h2 class="titulo">Contactanos</h2>
+                        </div>
 
-                
-    
-      <div class="col-lg-6 col-md-offset-3 mt-5">
-        <div class="well well-sm justify-content-center">
-          <form class="form " action="" method="post">
-          <fieldset>
-            <legend class="text-center">Contactanos</legend>
-    
-            <!-- Name input-->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="name">Tu nombre</label>
-              <div class="col-md-9">
-                <input id="name" name="name" type="text" placeholder="Tu nombre" class="form-control">
-              </div>
+                        <div class="form-group">
+                            <label class="col-md-12 control-label" for="name" style="color:black;">Tu nombre</label>
+                            <div class="col-md-12">
+                                <input id="name" name="name" type="text" placeholder="Tu nombre" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12 control-label" for="email" style="color:black;">Tu correo electronico</label>
+                            <div class="col-md-12">
+                                <input id="email" name="email" type="text" placeholder="Tu correo electronico" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12 control-label" for="message" style="color:black;">Mensaje</label>
+                            <div class="col-md-12">
+                                <textarea class="form-control" id="message" name="mensaje" placeholder="Por favor inserte su mensaje aqui..." rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-danger btn-lg">Enviar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-    
-            <!-- Email input-->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="email">Tu correo electronico</label>
-              <div class="col-md-9">
-                <input id="email" name="email" type="text" placeholder="Tu correo electronico" class="form-control">
-              </div>
+            <div class="row ml-3 mt-4">
+                <h4>O llame al: <span style="color:red">699605944</span></h4>
             </div>
-    
-            <!-- Message body -->
-            <div class="form-group">
-              <label class="col-md-3 control-label" for="message">Mensaje</label>
-              <div class="col-md-9">
-                <textarea class="form-control" id="message" name="mensaje" placeholder="Por favor inserte su mensaje aqui..." rows="5"></textarea>
-              </div>
-            </div>
-    
-            <!-- Form actions -->
-            <div class="form-group">
-              <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-danger btn-lg">Submit</button>
-              </div>
-            </div>
-          </fieldset>
-          </form>
         </div>
-      </div>
     </div>
 </div> 
-
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">
         <div class="container-xl">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez
-                    </p>
-                </div>
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
             </div>
         </div>
     </div>
