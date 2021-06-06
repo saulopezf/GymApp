@@ -37,20 +37,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>	
     <script src="js/validation.js"></script>
-    <script type="text/javascript">
-        //kg/m^2
-        //50/((150*0.01)^2)
-        /*0-15: muy bajo peso
-15-16: Muy bajo peso
-16-18.5: bajo peso
-18.5 - 25: Rango Normal (saludable)
-25-30: sobrepeso
-30 - 35: Clase obesa I - Obesa moderada
-35 - 40: Clase obesa II - Muy obesa
-40: obeso clase III: muy obesos*/
-    </script>
+    <script src="js/ScriptsGym.js"></script>
 </head>
-<body>
+<body onload="escribirConsejos();">
 	<nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
         <div class="container-xl">
             <a class="navbar-brand" href="index.php"><span class="">GymApp <small>Bodybuilding &amp; Fitness</small></span></a>
@@ -143,7 +132,7 @@
                 
     ?>
 
-    <div class="container-fluid">
+    <div class="container-fluid pb-5" style="margin-bottom:7% ;">
     	
     	<div class="row justify-content-center">
             <div class="col-md-6 p-5">
@@ -155,14 +144,14 @@
                 <p>El IMC es una fórmula que se calcula dividiendo el peso, expresado siempre en Kg, entre la altura, siempre en metros al cuadrado. Una cosa importante que destaca la nutricionista es que no se pueden aplicar los mismos valores en niños y adolescentes que en adultos.</p>
                 <div>
                     <ul>
-                        <li>0-15: muy bajo peso</li>
-                        <li>15-16: Muy bajo peso</li>
-                        <li>16-18.5: bajo peso</li>
-                        <li>18.5 - 25: Rango Normal (saludable)</li>
-                        <li>25-30: sobrepeso</li>
-                        <li>30 - 35: Clase obesa I - Obesa moderada</li>
-                        <li>35 - 40: Clase obesa II - Muy obesa</li>
-                        <li>40: obeso clase III: muy obesos</li>
+                        <li><b>0 - 15:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delgadez muy severa</li>
+                        <li><b>15 - 16:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delgadez severa</li>
+                        <li><b>16 - 18.5:</b>&nbsp; Delgadez</li>
+                        <li><b>18.5 - 25:</b>&nbsp; Peso Saludable</li>
+                        <li><b>25 - 30:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sobrepeso</li>
+                        <li><b>30 - 35:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obesidad moderada</li>
+                        <li><b>35 - 40:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obesidad severa</li>
+                        <li><b>40 o más:</b>&nbsp;&nbsp;Obesidad muy severa (obesidad morbida)</li>
                     </ul>
                 </div>
             </div>
@@ -170,7 +159,7 @@
                 <div class="row justify-content-center titulo-registro">
                         Calculadora IMC
                     </div>
-                <form action="" method="post" id="formulario" class="mx-auto" style="width:70%">
+                <form action="" method="post" id="formulario" class="mx-auto mb-3" style="width:70%">
                 	<div class="form-row">
                         <div class="col-md-6 mb-3">
                 	<label style="color:black">Peso 30-200 (kg): </label>
@@ -182,20 +171,29 @@
                 	</div>
                 </div>
                 <div class="form-row justify-content-center">
-                    <label style="color:black;font-size: 20px;">Tu IMC: <?php echo $matriculado['imc']?></label>
+                    <label style="color:black;font-size: 20px;">Tu IMC: <span id="imc"><?php echo $matriculado['imc']?></span></label>
                 </div>
                 <div class="form-row justify-content-center">
                 	<input type="submit" name="calcularIMC" class="btn btn-danger" value="Calcular IMC">
                 </div>
                 </form>
 
-                
-                
-                </div>
+                <div id="consejos"></div>
                 
             </div>
         </div>
 
     </div>
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

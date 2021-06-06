@@ -1,21 +1,10 @@
 <?php
+    include "conexion.php";
     session_start();
 
     if(!empty($_SESSION['userData'])){
 
-        //$usuario=$_SESSION['rol'];
-
-        $host='localhost';
-        $usuario_bd='root';
-        $password_bd='';
-        $nombre_bd='gimnasio';
-        $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-        if (mysqli_connect_errno()) { //(!$conexion)
-            printf("Conexión fallida: %s\n", mysqli_connect_error());
-            exit();
-        }
-
-        
+        $conexion=conexion();
 
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $password=$_POST['password'];
@@ -44,12 +33,16 @@
 
             $actualizar = mysqli_query($conexion, $sql);
             if($actualizar){
+                $_SESSION['actualizar'] = true;
                 header("location:../config.php");
             }
             else{
                 header("location:error.php");
             }
 
+        }
+        else{
+            header("location:../login.php");
         }
     }
     else{

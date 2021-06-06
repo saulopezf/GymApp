@@ -161,7 +161,16 @@
             </div>  
         </div>
     </div> 
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
-<?php
-?>

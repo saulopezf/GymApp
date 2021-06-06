@@ -52,3 +52,26 @@ function escribirFooter(){
     document.getElementById('textoFooter').innerHTML = "Copyright &copy; "+new Date().getFullYear()+" Todos los derechos reservados | GymApp hecho por Saul Lopez Fernandez";
 }
 
+function escribirConsejos(){
+    var suIMC = parseFloat(document.getElementById('imc').innerHTML); 
+    var contenedor = document.getElementById('consejos');
+    if(suIMC>35){
+        contenedor.innerHTML = '<div class="alert alert-danger text-center" role="alert">¡Tiene un sobrepeso severo! Necsita tener una dieta muy ligera en grasas y hacer mucho cardio. Le recomendamos contactar con un nutricionista para poder realizar la dieta.</div>';
+    }
+    else if (suIMC>25){
+        contenedor.innerHTML = '<div class="alert alert-warning text-center" role="alert">Sobrepeso. Le recomendamos un entrenamiento de definición para quemar esa grasa restante y definir su cuerpo.</div>';
+    }
+    else if (suIMC>=18.5){
+        contenedor.innerHTML = '<div class="alert alert-success text-center" role="alert">¡Tiene un peso saludable! Sigue entrenando y come saludablemente para mantener un estado físico saludable.</div>';
+    }
+    else if (suIMC>=16){
+        contenedor.innerHTML = '<div class="alert alert-warning text-center" role="alert">Delgadez. Le recomendamos un entrenamiento de volumen para poder subir de peso y asi estar en su peso saludable.</div>';
+    }
+    else if (suIMC>=0){
+        contenedor.innerHTML = '<div class="alert alert-danger text-center" role="alert">¡Usted está en una delgadez muy severa! Ten una dieta rica en proteinas y carbohidratos mientras sigue entrenando. Una rutina de volumen le ayudará a subir peso.</div>';
+    }
+    else{
+        contenedor.innerHTML = '';
+    }
+}
+

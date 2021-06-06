@@ -1,4 +1,5 @@
 <?php
+    include "php/conexion.php";
 	session_start();
 	if(isset($_SESSION['userData'])){
 ?>
@@ -16,17 +17,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="js/ScriptsChat.js"></script>
+    <script src="js/ScriptsGym.js"></script>
     <?php
         if(isset($_POST['dni'])){
-            $host='localhost';
-            $usuario_bd='root';
-            $password_bd='';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }
+            $conexion=conexion();
+
             $dniNuevoChat = $_POST['dni'];
             $sql = "SELECT nombre,apellido FROM usuarios WHERE dni='$dniNuevoChat'";
             $resultado = mysqli_query($conexion, $sql);
@@ -37,23 +32,6 @@
             echo "<script>dniNuevoChat = '".$dniNuevoChat."';nombre = '".$nuevoChat['nombre']."';apellidos = '".$nuevoChat['apellido']."'; nuevoChat = true;</script>";
         }
     ?>
-    
-    <script type="text/javascript">
-        function updateMsg(){
-            updateInterval = setInterval(updateFunctions, 1000);
-        }
-
-        function updateFunctions(){
-            cargarMensajeria();
-            if(userChat!=""){
-                cargarChat(userChat);
-            }
-        }
-
-        function stopUpdate() {
-            clearInterval(updateInterval);
-        }
-    </script>
 </head>
 <body onload="getUsuarioActual();cargarMensajeria();updateMsg()">
 	<nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
@@ -163,6 +141,19 @@
       </div>
 </div>
       </div>
+  </div>
+</div>
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
 <?php

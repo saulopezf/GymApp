@@ -19,6 +19,7 @@
         body{
             background-image: url("img/xbg_5.jpg.pagespeed.ic.AP6oI9aFte.png");
         }
+        
     </style>
 </head>
 <body>

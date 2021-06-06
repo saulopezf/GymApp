@@ -1,4 +1,5 @@
 <?php
+    include "php/conexion.php";
     session_start();
     if(isset($_SESSION['userData'])){
 ?>
@@ -15,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>	
     <script src="js/validation.js"></script>
+    <script src="js/ScriptsGym.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg ftco-navbar-light" id="mynav" style="position: static;background: #030513;">
@@ -96,16 +98,7 @@
     </nav>
 
     <?php
-
-            $host='localhost';
-            $usuario_bd='guest';
-            $password_bd='guest';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }          
+            $conexion=conexion();    
 
             $dni = $_SESSION['userData']['dni'];
             $sql = "SELECT * FROM usuarios
@@ -194,10 +187,26 @@
                     <input type="submit" name="submitPass" class="btn btn-danger"  value="Cambiar contraseña">
                 </div>
             </form>
+            <?php
+                if(isset($_SESSION['actualizar'])){
+                    echo '<div class="alert alert-success text-center my-3" role="alert">Actualizado.</div>';
+                    unset($_SESSION['actualizar']);
+                }
+            ?>
         </div>
     </div>
-
 </div>
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
 <?php

@@ -39,6 +39,7 @@
 							header("location:../error.php");
 						}
 					}
+					header("location:../postregistro.php");
 				}
 				else{
 					$_SESSION['error']="No se ha podido realizar el registro correctamente, intentelo de nuevo mas tarde.";
@@ -54,7 +55,15 @@
 					$sql = "INSERT INTO matriculados VALUES ('".$_POST["dni"]."', null, null, null);";
 					$insertarMatriculado = mysqli_query($conexion, $sql);
 					if($insertarMatriculado){
-						mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
+						$mailCorrecto = mail($_POST["mail"], "Matricula en GymApp", "Se te ha matriculado correctamente en GymApp\nSu usuario es: ".$_POST["user"]."\nSu contraseña: $randomPass\nPor favor cambie su contraseña lo antes posible");
+						if($mailCorrecto){
+							header("location:../postregistro.php");
+						}
+						else{
+							$_SESSION['error']="No se ha podido realizar el envio del correo, por favor cancele el registro e intentelo más tarde.";
+							header("location:../error.php");
+						}
+						
 					}
 					else{
 						$_SESSION['error']="No se ha podido realizar el registro correctamente, intentelo de nuevo mas tarde.";

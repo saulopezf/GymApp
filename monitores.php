@@ -97,39 +97,54 @@
     </nav>
       
     <div class="container-fluid">
-        <div class="row justify-content-center" style="height: 100vh">
+        
             <?php
             $conexion=conexion();      
             if(isset($_GET['idMonitor'])){
                 $idMonitor = $_GET['idMonitor'];
-                $sql = "SELECT idMonitor,dniMonitor,titulacion,img,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
-                WHERE idMonitor = '$idMonitor'";
+
+                $sql = "SELECT monitores.idMonitor,dniMonitor,titulacion,img,usuarios.nombre,usuarios.apellido FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor
+                    WHERE monitores.idMonitor = '$idMonitor'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $monitores[] = $fila;
                 }
                 $monitor = $monitores[0];
-                $sql = "SELECT idClase,nombre FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor
+
+                $sql = "SELECT nombreSpec FROM monitorspec
+                        WHERE idMonitor = '$idMonitor'";
+                $resultado = mysqli_query($conexion, $sql);
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    $monitorSpec[] = $fila;
+                }
+
+                $sql = "SELECT idClase,nombre,clases.img FROM clases INNER JOIN monitores ON clases.dniMonitor=monitores.dniMonitor
                 WHERE idMonitor='$idMonitor'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $clases[]=$fila;
                 }
                 ?>
-                <div class="row align-items-center mx-auto" style="width: 80%;margin-top:50px;margin-bottom: 200px;">
+                <div class="row align-items-center mx-auto" style="width: 80%;margin-top:50px;margin-bottom:100px;">
                     <div class="col-md-6 image-container-monitor">
                         <img <?php echo 'src="img/'.$monitor['img'].'"'?>>
                     </div>
                     <div class="col-md-6 text-center text-md-left info">
-                        <h1><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
-                        <h2>Titulacion: <?php echo  $monitor['titulacion'];?></h2>
-                        <p> Clases: 
+                        <h1 class="titulo-monitor"><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></h1>
+                        <h4>Titulacion: <span class="badge badge-primary"><?php echo  $monitor['titulacion'];?></span></h4>
+                        <p>Especialidades: 
                             <?php
-                            foreach ($clases as $key => $clase) {
-                                echo "<a href='clases.php?idClase=".$clase['idClase']."'>".$clase['nombre']."</a>";
+                            if(isset($monitorSpec)){
+                                foreach ($monitorSpec as $key => $specialidades) {
+                                    echo '<span class="badge badge-info">'.$specialidades['nombreSpec'].'</span>';
+                                }
                             }
                             ?>
+                            
                         </p>
+
+                        
+                        <div class="col-12 col-md-8 text-center">
                         <?php
                         if(isset($_SESSION['userData'])){
                             ?>
@@ -141,9 +156,29 @@
                             <?php
                         }
                         ?>
+                        </div>
                     </div>
                 </div>
                 <?php
+                if(isset($clases)){
+                    ?>
+                <div class="row align-items-center mx-auto">
+                    <div class="col-12 text-center titulo-monitor">Clases de <span><?php echo  $monitor['nombre']." ".$monitor['apellido'];?></span></div> 
+                </div>
+                        <?php
+                        
+                            echo '<div class="row justify-content-md-center mx-auto" style="width: 90%;margin-top:30px;">';
+                            echo '';
+                            foreach ($clases as $key => $clase) {
+                                echo '<div class="col-12 col-xl-3 col-lg-4 col-sm-6 text-center my-5">';
+                                echo '<form action="clases.php" method="get">';
+                                echo '<button type="submit" name="idClase" class="btn btn-clase self-align-center" style="background-image: url(\'img/'.$clase['img'].'\');" value="'.$clase['idClase'].'">'.$clase['nombre'].'</button>';
+                                echo '</form>';
+                                echo '</div>';
+                            }
+                            echo '</div>';
+                        }
+
             }
             else{
                 $sql = "SELECT idMonitor,img,usuarios.dni,usuarios.nombre,usuarios.apellido,titulacion FROM monitores INNER JOIN usuarios ON usuarios.dni=monitores.dniMonitor";
@@ -165,7 +200,6 @@
                 echo '</div>';
             }    
             ?>     
-        </div>
     </div>
 <footer class="ftco-footer">
     <div class="container-fluid px-0 py-5 bg-darken">

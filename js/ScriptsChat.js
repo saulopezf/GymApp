@@ -139,3 +139,19 @@ function enviarMsg(mensaje){
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("consulta=enviarMsg&dniChat="+userChat+"&mensaje="+mensaje);
 }
+
+
+function updateMsg(){
+    updateInterval = setInterval(updateFunctions, 1000);
+}
+
+function updateFunctions(){
+    cargarMensajeria();
+    if(userChat!=""){
+        cargarChat(userChat);
+    }
+}
+
+function stopUpdate() {
+    clearInterval(updateInterval);
+}

@@ -1,4 +1,5 @@
 <?php
+    include "php/conexion.php";
     session_start();
     if(isset($_SESSION['userData'])){
         if($_SESSION['userData']['user']!="gymMatriculado"){
@@ -10,31 +11,14 @@
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" type="text/css" href="css/navbar.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
       <script src="js/ScriptsGym.js"></script>
       <style type="text/css">
-        
-        td,th{
-          border: 1px solid black;
-          font-style: italic;
-        }
 
-        td{
-            font-weight: 700;
-        }
-
-        td button{
-            position: relative;
-            bottom: 0;
-        }
-
-        thead{
-            background:#030513;
-            color: white;
-        }
       </style>
 </head>
 <body>
@@ -118,18 +102,9 @@
     </nav>
       
       <div class="container-fluid text-center">
-        <div class="d-flex justify-content-center p-5">
+        <div class="row d-flex justify-content-center p-5">
         <?php
-
-            $host='localhost';
-            $usuario_bd='guest';
-            $password_bd='guest';
-            $nombre_bd='gimnasio';
-            $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-            if (mysqli_connect_errno()) { //(!$conexion)
-                printf("Conexión fallida: %s\n", mysqli_connect_error());
-                exit();
-            }          
+            $conexion=conexion();       
 
             if(isset($_GET['dniMatriculado'])){
                 $dniMatriculado = $_GET['dniMatriculado'];
@@ -141,6 +116,7 @@
                 }
                 $matriculado = $matriculados[0];
         ?>
+            <div class="col-12">
             <table class="table table-striped table-dark">
                 <thead>
                     <th scope="col">DNI</th>
@@ -160,6 +136,10 @@
                     
                 </tr>
             </table>
+        </div>
+        <div class="col-12 mt-5" style="height: 100vh;">
+            <a href="matriculados.php" class="btn btn-danger self-align-center">Atrás</a>
+            </div>
         <?php
             }
             else{
@@ -192,6 +172,7 @@
         ?>  
         </div>
         </div>   
+
 </body>
 </html>
 <?php

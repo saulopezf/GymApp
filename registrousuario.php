@@ -166,25 +166,6 @@
                             <input type="text" name="user" id="userRegistro" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-md-4 mb-3">
-                            <label for="password">Contraseña</label>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <input type="password" name="password" id="pass" class="form-control" required>
-                        </div>
-                     </div>  
-                    <div class="form-row">        
-                        <div class="col-md-4 mb-3"> 
-                            <label for="password">Repita la contraseña</label>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <input type="password" id="passRegistro" class="form-control">
-                            <div class="invalid-feedback">
-                                Las contraseñas tienen que coincidir.
-                            </div>
-                        </div>
-                    </div> 
                     <div class="form-row justify-content-center" id="errorVali"></div>
                     <div class="form-row justify-content-center">
                         <input type="submit" name="registrar" class="w-100 btn btn-danger" value="MATRICULAR USUARIO">
@@ -193,5 +174,16 @@
             </div> 
         </div>  
     </div>
+<footer class="ftco-footer">
+    <div class="container-fluid px-0 py-5 bg-darken">
+        <div class="container-xl">
+            <div class="col-md-12 text-center">
+                <p id="textoFooter" class="mb-0" style="color: rgba(255,255,255,.5); font-size: 13px;">
+                    <script>escribirFooter();</script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
