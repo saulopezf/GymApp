@@ -101,50 +101,50 @@
         </div>
     </nav>
       
-      <div class="container-fluid text-center">
+    <div class="container-fluid text-center">
         <div class="row d-flex justify-content-center p-5">
-        <?php
+            <?php
             $conexion=conexion();       
 
             if(isset($_GET['dniMatriculado'])){
                 $dniMatriculado = $_GET['dniMatriculado'];
                 $sql = "SELECT dniMatriculado,peso,altura,imc,usuarios.nombre,usuarios.apellido FROM matriculados INNER JOIN usuarios ON usuarios.dni=matriculados.dniMatriculado
-                    WHERE dniMatriculado = '$dniMatriculado'";
+                WHERE dniMatriculado = '$dniMatriculado'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $matriculados[] = $fila;
                 }
                 $matriculado = $matriculados[0];
-        ?>
-            <div class="col-12">
-            <table class="table table-striped table-dark">
-                <thead>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Peso (kg)</th>
-                    <th scope="col">Altura (cm)</th>
-                    <th scope="col">IMC</th>
-                </thead>
-                <tr scope="row">
-                    <?php
-                        echo "<td>".$matriculado['dniMatriculado']."</td>";
-                        echo "<td>".$matriculado['nombre']." ".$matriculado['apellido']."</td>";
-                        echo "<td>".$matriculado['peso']."</td>";
-                        echo "<td>".$matriculado['altura']."</td>";
-                        echo "<td>".$matriculado['imc']."</td>";
-                    ?>
-                    
-                </tr>
-            </table>
-        </div>
-        <div class="col-12 mt-5" style="height: 100vh;">
-            <a href="matriculados.php" class="btn btn-danger self-align-center">Atrás</a>
-            </div>
-        <?php
+                ?>
+                <div class="col-12">
+                    <table class="table table-striped table-dark">
+                        <thead>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Peso (kg)</th>
+                            <th scope="col">Altura (cm)</th>
+                            <th scope="col">IMC</th>
+                        </thead>
+                        <tr scope="row">
+                            <?php
+                            echo "<td>".$matriculado['dniMatriculado']."</td>";
+                            echo "<td>".$matriculado['nombre']." ".$matriculado['apellido']."</td>";
+                            echo "<td>".$matriculado['peso']."</td>";
+                            echo "<td>".$matriculado['altura']."</td>";
+                            echo "<td>".$matriculado['imc']."</td>";
+                            ?>
+                            
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 mt-5" style="height: 100vh;">
+                    <a href="matriculados.php" class="btn btn-danger self-align-center">Atrás</a>
+                </div>
+                <?php
             }
             else{
                 $sql = "SELECT dni,nombre,apellido,sexo,fechaNacimiento,telefono,mail FROM usuarios INNER JOIN matriculados ON usuarios.dni=matriculados.dniMatriculado
-                    WHERE rol='matriculado'";
+                WHERE rol='matriculado'";
                 $resultado = mysqli_query($conexion, $sql);
                 while ($fila = mysqli_fetch_assoc($resultado)) {
                     $matriculados[] = $fila;
@@ -169,19 +169,19 @@
                 }
                 echo '</table>';
             }    
-        ?>  
+            ?>  
         </div>
-        </div>   
+    </div>   
 
 </body>
 </html>
 <?php
-        }
-        else{
-            header("location: index.php");
-        }
     }
     else{
         header("location: index.php");
     }
+}
+else{
+    header("location: index.php");
+}
 ?>

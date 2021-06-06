@@ -37,7 +37,8 @@
                 header("location:../config.php");
             }
             else{
-                header("location:error.php");
+                $_SESSION['error'] = "No se han podido actualizar los datos";
+                header("location:../error.php");
             }
 
         }

@@ -189,64 +189,64 @@ function noEsValido(getId){
 }
 
 
-		function validarDNI(dni,getId){
-				if(!dniRegex.test(dni)){
-					noEsValido(getId);
-				}
-				else{
-					dniCorrecto=true;
-					esValido(getId);
-				}
-				
-		}
+function validarDNI(dni,getId){
+	if(!dniRegex.test(dni)){
+		noEsValido(getId);
+	}
+	else{
+		dniCorrecto=true;
+		esValido(getId);
+	}
+	
+}
 
-		function validarNombre(nombre,getId){
-				if(!noNumber.test(nombre)){
-					noEsValido(getId);
-				}
-				else{
-					nombreCorrecto=true;
-					esValido(getId);
-				}
-		}
+function validarNombre(nombre,getId){
+	if(!noNumber.test(nombre)){
+		noEsValido(getId);
+	}
+	else{
+		nombreCorrecto=true;
+		esValido(getId);
+	}
+}
 
-		function validarApellidos(apellido,getId){
-				if(!noNumber.test(apellido)){
-					noEsValido(getId);
-				}
-				else{
-					apeCorrecto=true;
-					esValido(getId);
-				}
-		}
+function validarApellidos(apellido,getId){
+	if(!noNumber.test(apellido)){
+		noEsValido(getId);
+	}
+	else{
+		apeCorrecto=true;
+		esValido(getId);
+	}
+}
 
-		function validarMail(mail,getId){
-				if(!mailRegex.test(mail)){
-					noEsValido(getId);
-				}
-				else{
-					mailCorrecto=true;
-					esValido(getId);
-				}
-		}
+function validarMail(mail,getId){
+	if(!mailRegex.test(mail)){
+		noEsValido(getId);
+	}
+	else{
+		mailCorrecto=true;
+		esValido(getId);
+	}
+}
 
-		function validarTlfno(tlfno,getId){
-				if(!tlfnoRegex.test(tlfno)){
-					noEsValido(getId);
-				}
-				else{
-					tlfnoCorrecto=true;
-					esValido(getId);
-				}		
-		}
+function validarTlfno(tlfno,getId){
+	if(!tlfnoRegex.test(tlfno)){
+		noEsValido(getId);
+	}
+	else{
+		tlfnoCorrecto=true;
+		esValido(getId);
+	}		
+}
 
 
-		function validarPass(pass,passComparar,getId){
-				if(pass!=passComparar){
-					noEsValido(getId);
-				}
-				else{
-					passCorrecto=true;
-					esValido(getId);
-				}		
-		}
+function validarPass(pass,passComparar,getId){
+	if(pass!=passComparar){
+		noEsValido(getId);
+	}
+	else{
+		passCorrecto=true;
+		esValido(getId);
+	}		
+}

@@ -260,11 +260,11 @@
                                     }
                                 }
                                 if($estaApuntado){
-                                    echo "<button value='".$horario['idHorario']."' class='btn btn-success'>Apuntado</button><form action='php/apuntarse.php' method='post'><button type='submit' name='desapuntarse' value='".$horario['idHorario']."' class='btn btn-danger'>X</button></form>";
-                                }
-                                else{
-                                    echo "<form action='php/apuntarse.php' method='post'><button type='submit' name='apuntarse' value='".$horario['idHorario']."' class='btn btn-danger'>Apuntarse</button></form>";
-                                }
+                                        echo "<form action='php/apuntarse.php' method='post'><a class='btn btn-success'>Apuntado</a><button type='submit' name='desapuntarse' value='".$horario['idHorario']."' class='btn btn-danger'>X</button></form>";
+                                    }
+                                    else{
+                                        echo "<form action='php/apuntarse.php' method='post'><button type='submit' name='apuntarse' value='".$horario['idHorario']."' class='btn btn-danger'>Apuntarse</button></form>";
+                                    }
                             }
                             else if($_SESSION['userData']['user']=="gymAsist"){
                                 echo "<form action='php/editarClase.php' method='post'><input type='hidden' name='idClase' value='".$clase['idClase']."'><button type='submit' name='quitarHorario' value='".$horario['idHorario']."' class='btn btn-danger'>X</button></form>";

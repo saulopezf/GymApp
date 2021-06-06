@@ -98,16 +98,16 @@
     </nav>
 
     <?php
-            $conexion=conexion();    
+    $conexion=conexion();    
 
-            $dni = $_SESSION['userData']['dni'];
-            $sql = "SELECT * FROM usuarios
-                    WHERE dni = '$dni'";
-            $resultado = mysqli_query($conexion, $sql);
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $usuarios[] = $fila;
-            }
-                $usuario = $usuarios[0];
+    $dni = $_SESSION['userData']['dni'];
+    $sql = "SELECT * FROM usuarios
+    WHERE dni = '$dni'";
+    $resultado = mysqli_query($conexion, $sql);
+    while ($fila = mysqli_fetch_assoc($resultado)) {
+        $usuarios[] = $fila;
+    }
+    $usuario = $usuarios[0];
     ?>
 
     <div class="container-fluid">
@@ -164,18 +164,18 @@
                     </div>
                 </form>
 
-            <form action="php/actualizar.php" method="post" id="formPass" onsubmit="return updatePass()">
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                       <label>Nueva Contraseña</label>
-                       <input type="password" name="newpassword" class="form-control"required>
-                       <label>Repita la contraseña</label>
-                       <input type="password" id="passRegistro" class="form-control">
-                       <div class="invalid-feedback">
+                <form action="php/actualizar.php" method="post" id="formPass" onsubmit="return updatePass()">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                         <label>Nueva Contraseña</label>
+                         <input type="password" name="newpassword" class="form-control"required>
+                         <label>Repita la contraseña</label>
+                         <input type="password" id="passRegistro" class="form-control">
+                         <div class="invalid-feedback">
                             Las contraseñas tienen que coincidir.
                         </div>
-                   </div>
-                   <div class="col-md-6 mb-3">
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="password">Contraseña</label>
                         <input type="password" name="password" id="passwordPass" class="form-control" required>
                         <div class="invalid-feedback">
@@ -188,10 +188,10 @@
                 </div>
             </form>
             <?php
-                if(isset($_SESSION['actualizar'])){
-                    echo '<div class="alert alert-success text-center my-3" role="alert">Actualizado.</div>';
-                    unset($_SESSION['actualizar']);
-                }
+            if(isset($_SESSION['actualizar'])){
+                echo '<div class="alert alert-success text-center my-3" role="alert">Actualizado.</div>';
+                unset($_SESSION['actualizar']);
+            }
             ?>
         </div>
     </div>

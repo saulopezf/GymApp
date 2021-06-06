@@ -37,7 +37,7 @@ session_start();
             }
             else{
                 $_SESSION['error'] = "No se ha podido editar la clase";
-                //header("location:../error.php");
+                header("location:../error.php");
             }
 
         }

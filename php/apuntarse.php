@@ -1,16 +1,9 @@
 <?php
-	
+	include "php/conexion.php";
 	session_start();
 
-    $host='localhost';
-    $usuario_bd='root';
-    $password_bd='';
-    $nombre_bd='gimnasio';
-    $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-    if (mysqli_connect_errno()) { //(!$conexion)
-        printf("Conexión fallida: %s\n", mysqli_connect_error());
-        exit();
-    }
+    $conexion=conexion();
+
     $dni = $_SESSION['userData']['dni'];
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 	    if(isset($_POST['apuntarse'])){
@@ -24,6 +17,7 @@
 		    $sentencia = mysqli_query($conexion, $sql);
 	    }
 	    if(!$sentencia){
+	    	$_SESSION['error'] = "No se ha podido apuntar a la clase";
 			header("location:../error.php");
 		}
 		else{

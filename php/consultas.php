@@ -1,16 +1,8 @@
 <?php
-
+    include "php/conexion.php";
     session_start();
 
-    $host='localhost';
-    $usuario_bd='root';
-    $password_bd='';
-    $nombre_bd='gimnasio';
-    $conexion=mysqli_connect($host,$usuario_bd,$password_bd,$nombre_bd);
-    if (mysqli_connect_errno()) { //(!$conexion)
-        printf("Conexión fallida: %s\n", mysqli_connect_error());
-        exit();
-    }
+    $conexion=conexion();
 
     $consulta = $_POST['consulta'];
     switch ($consulta) {
