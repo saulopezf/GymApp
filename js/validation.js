@@ -75,7 +75,7 @@ function updateHora(){
 
 function validarFormulario(){
 		validarElementos();
-		if(dniCorrecto&&nombreCorrecto&&apeCorrecto&&tlfnoCorrecto&&mailCorrecto&&passCorrecto){
+		if(dniCorrecto&&nombreCorrecto&&apeCorrecto&&tlfnoCorrecto&&mailCorrecto){
 			return true;
 		}
 		else{
@@ -175,7 +175,6 @@ function validarElementos(){
 	validarApellidos(document.getElementById('apeRegistro').value,document.getElementById('apeRegistro'));
 	validarMail(document.getElementById('mailRegistro').value,document.getElementById('mailRegistro'));
 	validarTlfno(document.getElementById('tlfnoRegistro').value,document.getElementById('tlfnoRegistro'));
-	validarPass(document.getElementById('passRegistro').value,document.getElementById("formMatricular").elements.namedItem("password").value,document.getElementById('passRegistro'));
 }
 
 function esValido(getId){

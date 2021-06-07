@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="js/validation.js"></script>
+    <script src="js/ScriptsGym.js"></script>
 </head>
 <body>
 
@@ -94,7 +95,6 @@
             </div>
         </div>
     </nav>
-      
     <div class="container-fluid">
         <div class="row justify-content-center" id="imagenTop" style="height: 100vh">
             <div class="align-self-center gym-register">
