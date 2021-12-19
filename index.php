@@ -93,7 +93,7 @@ session_start();
                         else{
                     ?>
                 </ul>
-                <a class="btn-custom" href="login.php">Iniciar sesion</a>
+                <a class="btn-custom" href="login.php">Iniciar sesión</a>
                 <?php
                     }
                 ?>
